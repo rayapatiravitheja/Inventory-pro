@@ -15,8 +15,9 @@ const router = express.Router();
 
 router.use(verifyJWT); // Apply auth middleware to all routes
 
-// Customer self-service checkout
+// Customer self-service checkout (support both /checkout and /customer-checkout)
 router.post("/checkout", customerCheckout);
+router.post("/customer-checkout", customerCheckout);
 
 // Internal order creation - restricted to Admin and Manager
 router.post("/", requireRole("admin", "manager"), createOrder);

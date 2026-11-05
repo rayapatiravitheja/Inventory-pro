@@ -49,8 +49,7 @@ const transporter = {
                 const toAddresses = recipients.map((email) => ({ email }));
                 const brevoSenderEmail = (
                     process.env.BREVO_SENDER_EMAIL ||
-                    process.env.SENDER_EMAIL ||
-                    process.env.EMAIL_USER ||
+                    process.env.ADMIN_EMAIL ||
                     "rayapatiravitheja@gmail.com"
                 ).trim().toLowerCase();
 

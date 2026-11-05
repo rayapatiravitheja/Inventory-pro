@@ -839,5 +839,6 @@ export {
     generateInvoice,
     customerCheckout,
     sendOrderConfirmationNotification,
+    sendOrderStatusNotification,
     checkAndTriggerLowStockAlert,
 };

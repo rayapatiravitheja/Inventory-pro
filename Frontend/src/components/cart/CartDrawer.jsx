@@ -157,7 +157,7 @@ const CartDrawer = () => {
         // Cash on Delivery (COD) path
         try {
             setSubmitting(true);
-            const res = await api.post("/orders/customer-checkout", {
+            const res = await api.post("/orders/checkout", {
                 items: itemsPayload,
                 shipping_address,
                 payment_method: "cod",
