@@ -15,6 +15,7 @@ import {
     getCustomerReturnConfirmationEmailTemplate,
     getAdminNewReturnAlertEmailTemplate,
 } from "../utils/emailTemplates.js";
+import { getAdminEmails } from "../utils/adminHelper.js";
 import { getRazorpayInstance } from "./payment.controller.js";
 
 // Customer submits a return request for their own order
@@ -400,21 +401,9 @@ const sendReturnCreationEmails = async (returnId) => {
 
         // 2. Dispatch alert email to Admin(s)
         try {
-            const adminUsers = await User.find({ role: "admin" }).select("email username name");
-            const adminEmails = new Set();
-            adminUsers.forEach((admin) => {
-                if (admin.email && admin.email.includes("@")) {
-                    adminEmails.add(admin.email.trim().toLowerCase());
-                }
-            });
-            if (process.env.ADMIN_EMAIL && process.env.ADMIN_EMAIL.includes("@")) {
-                adminEmails.add(process.env.ADMIN_EMAIL.trim().toLowerCase());
-            }
-            if (adminEmails.size === 0 && (process.env.SENDER_EMAIL || process.env.EMAIL_USER)) {
-                adminEmails.add((process.env.SENDER_EMAIL || process.env.EMAIL_USER).trim().toLowerCase());
-            }
+            const adminEmails = await getAdminEmails();
 
-            if (adminEmails.size > 0) {
+            if (adminEmails.length > 0) {
                 const adminTemplate = getAdminNewReturnAlertEmailTemplate({
                     admin_name: "Admin",
                     customer_name: customerName,
@@ -429,26 +418,33 @@ const sendReturnCreationEmails = async (returnId) => {
                     adminPortalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/returns`,
                 });
 
-                for (const adminTo of Array.from(adminEmails)) {
-                    await transporter.sendMail({
-                        from: `"InventoryPro Return Alerts" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER}>`,
-                        to: adminTo,
-                        ...adminTemplate,
-                    });
-                    console.log(
-                        `📧 Admin return alert sent to ${adminTo} for Return #${returnReq.return_no} (Order #${invoiceNo})`
-                    );
+                for (const adminTo of adminEmails) {
+                    try {
+                        await transporter.sendMail({
+                            from: `"InventoryPro Return Alerts" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                            to: adminTo,
+                            ...adminTemplate,
+                        });
+                        console.log(
+                            `📧 Admin return alert sent to ${adminTo} for Return #${returnReq.return_no} (Order #${invoiceNo})`
+                        );
+                    } catch (oneAdminErr) {
+                        console.warn(
+                            `⚠️ Failed sending admin return alert to ${adminTo}:`,
+                            oneAdminErr.message
+                        );
+                    }
                 }
             }
         } catch (adminErr) {
-            console.warn(`⚠️ Failed sending admin return alert email:`, adminErr.message);
+            console.warn(`⚠️ Failed querying admin emails for return alert:`, adminErr.message);
         }
     } catch (err) {
         console.warn(`⚠️ Error in sendReturnCreationEmails:`, err.message);
     }
 };
 
-// Helper: send customer return status notification email
+// Helper: send customer AND admin return status notification email
 const sendReturnNotificationEmail = async (returnId) => {
     try {
         const populated = await ReturnRequest.findById(returnId)
@@ -457,30 +453,73 @@ const sendReturnNotificationEmail = async (returnId) => {
             .populate("warehouse_id", "warehouse_name")
             .populate("items.product_id", "product_name product_code");
 
-        if (populated?.customer_id?.email) {
-            const emailTemplate = getReturnStatusUpdateEmailTemplate({
-                username: populated.customer_id.username || populated.customer_id.name,
-                return_no: populated.return_no,
-                invoice_no: populated.order_id?.invoice_no,
-                status: populated.status,
-                items: populated.items?.map((it) => ({
-                    product_name: it.product_id?.product_name,
-                    product_code: it.product_id?.product_code,
-                    quantity: it.quantity,
-                })),
-                warehouse_name: populated.warehouse_id?.warehouse_name,
-                resolution_notes: populated.admin_notes,
-                portalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/customer/returns`,
-            });
+        if (!populated) return;
 
-            await transporter.sendMail({
-                from: `"InventoryPro" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER}>`,
-                to: populated.customer_id.email,
-                ...emailTemplate,
-            });
-            console.log(
-                `📧 Return status update email sent to ${populated.customer_id.email} (Status: ${populated.status})`
-            );
+        // 1. Notify Customer
+        if (populated.customer_id?.email) {
+            try {
+                const customerTemplate = getReturnStatusUpdateEmailTemplate({
+                    username: populated.customer_id.username || populated.customer_id.name,
+                    return_no: populated.return_no,
+                    invoice_no: populated.order_id?.invoice_no,
+                    status: populated.status,
+                    items: populated.items?.map((it) => ({
+                        product_name: it.product_id?.product_name,
+                        product_code: it.product_id?.product_code,
+                        quantity: it.quantity,
+                    })),
+                    warehouse_name: populated.warehouse_id?.warehouse_name,
+                    resolution_notes: populated.admin_notes,
+                    portalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/customer/returns`,
+                });
+
+                await transporter.sendMail({
+                    from: `"InventoryPro" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                    to: populated.customer_id.email,
+                    ...customerTemplate,
+                });
+                console.log(
+                    `📧 Return status update email sent to customer ${populated.customer_id.email} (Status: ${populated.status})`
+                );
+            } catch (custErr) {
+                console.warn("⚠️ Customer return status email failed:", custErr.message);
+            }
+        }
+
+        // 2. Notify Admins
+        try {
+            const adminEmails = await getAdminEmails();
+            for (const adminTo of adminEmails) {
+                try {
+                    const adminUpdateTemplate = getReturnStatusUpdateEmailTemplate({
+                        username: `Admin (${populated.customer_id?.username || "Customer"}'s Return)`,
+                        return_no: populated.return_no,
+                        invoice_no: populated.order_id?.invoice_no,
+                        status: populated.status,
+                        items: populated.items?.map((it) => ({
+                            product_name: it.product_id?.product_name,
+                            product_code: it.product_id?.product_code,
+                            quantity: it.quantity,
+                        })),
+                        warehouse_name: populated.warehouse_id?.warehouse_name,
+                        resolution_notes: populated.admin_notes,
+                        portalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/returns`,
+                    });
+
+                    await transporter.sendMail({
+                        from: `"InventoryPro Return Alerts" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                        to: adminTo,
+                        subject: `[Return Alert] Return #${populated.return_no} Status: ${String(populated.status).toUpperCase()}`,
+                        html: adminUpdateTemplate.html,
+                        text: adminUpdateTemplate.text,
+                    });
+                    console.log(`📧 Admin return status alert sent to ${adminTo} (Return #${populated.return_no})`);
+                } catch (oneAdminErr) {
+                    console.warn(`⚠️ Failed sending admin return status alert to ${adminTo}:`, oneAdminErr.message);
+                }
+            }
+        } catch (admErr) {
+            console.warn("⚠️ Failed sending admin return status notifications:", admErr.message);
         }
     } catch (emailErr) {
         console.warn("⚠️ Return status email could not be sent:", emailErr.message);

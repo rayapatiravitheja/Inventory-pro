@@ -4,6 +4,12 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import purchaseService from "../services/purchase.service.js";
+import transporter from "../utils/nodemailer.js";
+import {
+    getPurchaseReceiptEmailTemplate,
+    getPurchaseStatusUpdateEmailTemplate,
+} from "../utils/emailTemplates.js";
+import { getAdminEmails } from "../utils/adminHelper.js";
 
 const createPurchase = asyncHandler(async (req, res, next) => {
     try {
@@ -11,6 +17,9 @@ const createPurchase = asyncHandler(async (req, res, next) => {
             req.body,
             req.user._id
         );
+        if (purchase?._id) {
+            sendPurchaseCreationNotification(purchase._id);
+        }
         return res
             .status(201)
             .json(
@@ -93,12 +102,18 @@ const updatePurchaseStatus = asyncHandler(async (req, res, next) => {
     }
 
     try {
+        const existingPurchase = await Purchase.findById(id).select("purchase_status");
+        const oldStatus = existingPurchase ? existingPurchase.purchase_status : "pending";
+
         const result = await purchaseService.updatePurchaseStatus(
             id,
             purchase_status,
             req.user._id,
             req.user.role
         );
+
+        // Asynchronously notify admins & relevant stakeholders of status transition
+        sendPurchaseStatusNotification(id, oldStatus, purchase_status);
 
         return res
             .status(200)
@@ -187,10 +202,126 @@ const getReturnPreview = asyncHandler(async (req, res, next) => {
     }
 });
 
+// Helper: send purchase creation notification email to Admins & Supplier
+const sendPurchaseCreationNotification = async (purchaseId) => {
+    try {
+        const purchase = await Purchase.findById(purchaseId)
+            .populate("supplier_id", "name shopname email phone")
+            .populate("warehouse_id", "warehouse_name warehouse_code")
+            .populate("created_by", "username name email");
+
+        if (!purchase) return;
+
+        const details = await PurchaseDetail.find({ purchase_id: purchaseId }).populate(
+            "product_id",
+            "product_name product_code unitcost"
+        );
+
+        let totalAmount = 0;
+        const items = details.map((d) => {
+            const itemTotal = Number(d.quantity || 1) * Number(d.unitcost || 0);
+            totalAmount += itemTotal;
+            return {
+                product_name: d.product_id?.product_name || "Procured Item",
+                product_code: d.product_id?.product_code || "—",
+                quantity: d.quantity,
+                unitcost: d.unitcost,
+                total: itemTotal,
+            };
+        });
+
+        const template = getPurchaseReceiptEmailTemplate({
+            purchase_no: purchase.purchase_no,
+            supplier_name: purchase.supplier_id?.name || purchase.supplier_id?.shopname || "Supplier",
+            warehouse_name: purchase.warehouse_id?.warehouse_name || "Main Warehouse",
+            purchase_status: purchase.purchase_status,
+            total_amount: totalAmount,
+            items,
+            creator_name: purchase.created_by?.username || purchase.created_by?.name || "Procurement Admin",
+            adminPortalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/purchases`,
+        });
+
+        const adminEmails = await getAdminEmails();
+        for (const adminTo of adminEmails) {
+            try {
+                await transporter.sendMail({
+                    from: `"InventoryPro Procurement" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                    to: adminTo,
+                    ...template,
+                });
+                console.log(`📧 Admin purchase alert sent to ${adminTo} for PO #${purchase.purchase_no}`);
+            } catch (oneAdminErr) {
+                console.warn(`⚠️ Failed sending purchase alert to ${adminTo}:`, oneAdminErr.message);
+            }
+        }
+
+        // Also notify supplier if an email address exists
+        if (purchase.supplier_id?.email && purchase.supplier_id.email.includes("@")) {
+            try {
+                await transporter.sendMail({
+                    from: `"InventoryPro Procurement" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                    to: purchase.supplier_id.email,
+                    ...template,
+                });
+                console.log(`📧 Supplier purchase copy sent to ${purchase.supplier_id.email} for PO #${purchase.purchase_no}`);
+            } catch (supErr) {
+                console.warn(`⚠️ Failed sending purchase copy to supplier:`, supErr.message);
+            }
+        }
+    } catch (err) {
+        console.warn("⚠️ Failed to send purchase creation notification:", err.message);
+    }
+};
+
+// Helper: send purchase status update notification to Admins
+const sendPurchaseStatusNotification = async (purchaseId, oldStatus, newStatus) => {
+    try {
+        const purchase = await Purchase.findById(purchaseId)
+            .populate("supplier_id", "name shopname email")
+            .populate("warehouse_id", "warehouse_name");
+
+        if (!purchase) return;
+
+        const details = await PurchaseDetail.find({ purchase_id: purchaseId });
+        const totalAmount = details.reduce(
+            (sum, d) => sum + Number(d.quantity || 1) * Number(d.unitcost || 0),
+            0
+        );
+
+        const template = getPurchaseStatusUpdateEmailTemplate({
+            purchase_no: purchase.purchase_no,
+            supplier_name: purchase.supplier_id?.name || purchase.supplier_id?.shopname || "Supplier",
+            warehouse_name: purchase.warehouse_id?.warehouse_name || "Main Warehouse",
+            old_status: oldStatus,
+            new_status: newStatus,
+            total_amount: totalAmount,
+            adminPortalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/purchases`,
+        });
+
+        const adminEmails = await getAdminEmails();
+        for (const adminTo of adminEmails) {
+            try {
+                await transporter.sendMail({
+                    from: `"InventoryPro Procurement" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                    to: adminTo,
+                    ...template,
+                });
+                console.log(`📧 Admin purchase status update sent to ${adminTo} for PO #${purchase.purchase_no}`);
+            } catch (oneAdminErr) {
+                console.warn(`⚠️ Failed sending purchase status update to ${adminTo}:`, oneAdminErr.message);
+            }
+        }
+    } catch (err) {
+        console.warn("⚠️ Failed to send purchase status notification:", err.message);
+    }
+};
+
 export {
     createPurchase,
     getAllPurchases,
     getPurchaseDetails,
     updatePurchaseStatus,
     getReturnPreview,
+    sendPurchaseCreationNotification,
+    sendPurchaseStatusNotification,
 };

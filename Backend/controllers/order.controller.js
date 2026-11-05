@@ -16,6 +16,7 @@ import {
     getAdminNewOrderAlertEmailTemplate,
     getLowStockAlertEmailTemplate,
 } from "../utils/emailTemplates.js";
+import { getAdminEmails } from "../utils/adminHelper.js";
 
 const createOrder = asyncHandler(async (req, res, next) => {
     try {
@@ -633,36 +634,9 @@ const sendOrderConfirmationNotification = async (orderId) => {
 
         // 2. Send Order Notification Email to Admin(s)
         try {
-            const adminUsers = await User.find({ role: "admin" }).select(
-                "email username name"
-            );
-            const adminEmails = new Set();
+            const adminEmails = await getAdminEmails();
 
-            adminUsers.forEach((admin) => {
-                if (admin.email && admin.email.includes("@")) {
-                    adminEmails.add(admin.email.trim().toLowerCase());
-                }
-            });
-
-            if (
-                process.env.ADMIN_EMAIL &&
-                process.env.ADMIN_EMAIL.includes("@")
-            ) {
-                adminEmails.add(process.env.ADMIN_EMAIL.trim().toLowerCase());
-            }
-
-            if (
-                adminEmails.size === 0 &&
-                (process.env.SENDER_EMAIL || process.env.EMAIL_USER)
-            ) {
-                adminEmails.add(
-                    (process.env.SENDER_EMAIL || process.env.EMAIL_USER)
-                        .trim()
-                        .toLowerCase()
-                );
-            }
-
-            if (adminEmails.size > 0) {
+            if (adminEmails.length > 0) {
                 const adminTemplate = getAdminNewOrderAlertEmailTemplate({
                     admin_name: "Admin",
                     customer_name: customerName,
@@ -681,20 +655,27 @@ const sendOrderConfirmationNotification = async (orderId) => {
                     adminPortalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/orders`,
                 });
 
-                for (const adminTo of Array.from(adminEmails)) {
-                    await transporter.sendMail({
-                        from: `"InventoryPro Order Alerts" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER}>`,
-                        to: adminTo,
-                        ...adminTemplate,
-                    });
-                    console.log(
-                        `📧 Admin new order alert sent to ${adminTo} for Invoice #${order.invoice_no}`
-                    );
+                for (const adminTo of adminEmails) {
+                    try {
+                        await transporter.sendMail({
+                            from: `"InventoryPro Order Alerts" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                            to: adminTo,
+                            ...adminTemplate,
+                        });
+                        console.log(
+                            `📧 Admin new order alert sent to ${adminTo} for Invoice #${order.invoice_no}`
+                        );
+                    } catch (oneAdminErr) {
+                        console.warn(
+                            `⚠️ Failed sending admin new order alert to ${adminTo}:`,
+                            oneAdminErr.message
+                        );
+                    }
                 }
             }
         } catch (adminErr) {
             console.warn(
-                "⚠️ Failed sending admin new order alert email:",
+                "⚠️ Failed querying admin emails for order alert:",
                 adminErr.message
             );
         }
@@ -703,7 +684,7 @@ const sendOrderConfirmationNotification = async (orderId) => {
     }
 };
 
-// Helper: send order status update email
+// Helper: send order status update email to Customer AND Admins
 const sendOrderStatusNotification = async (orderId, newStatus) => {
     try {
         const order = await Order.findById(orderId)
@@ -717,22 +698,56 @@ const sendOrderStatusNotification = async (orderId, newStatus) => {
         const recipientEmail = customerUser?.email || customerProfile?.email;
         const customerName = customerUser?.username || customerProfile?.name || "Valued Customer";
 
-        if (!recipientEmail) return;
+        // 1. Notify Customer
+        if (recipientEmail) {
+            try {
+                const emailTemplate = getOrderStatusUpdateEmailTemplate({
+                    username: customerName,
+                    invoice_no: order.invoice_no,
+                    order_status: newStatus,
+                    total: order.total,
+                    portalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/customer/orders`,
+                });
 
-        const emailTemplate = getOrderStatusUpdateEmailTemplate({
-            username: customerName,
-            invoice_no: order.invoice_no,
-            order_status: newStatus,
-            total: order.total,
-            portalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/customer/orders`,
-        });
+                await transporter.sendMail({
+                    from: `"InventoryPro" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                    to: recipientEmail,
+                    ...emailTemplate,
+                });
+                console.log(`📧 Order status update email sent to customer ${recipientEmail} (Invoice: #${order.invoice_no}, Status: ${newStatus})`);
+            } catch (custErr) {
+                console.warn(`⚠️ Failed sending customer order status update to ${recipientEmail}:`, custErr.message);
+            }
+        }
 
-        await transporter.sendMail({
-            from: `"InventoryPro" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER}>`,
-            to: recipientEmail,
-            ...emailTemplate,
-        });
-        console.log(`📧 Order status update email sent to ${recipientEmail} (Invoice: #${order.invoice_no}, Status: ${newStatus})`);
+        // 2. Notify Admins
+        try {
+            const adminEmails = await getAdminEmails();
+            for (const adminTo of adminEmails) {
+                try {
+                    const adminTemplate = getOrderStatusUpdateEmailTemplate({
+                        username: `Admin (${customerName}'s Order)`,
+                        invoice_no: order.invoice_no,
+                        order_status: newStatus,
+                        total: order.total,
+                        portalUrl: `${process.env.FRONTEND_URL || "http://localhost:5173"}/orders`,
+                    });
+
+                    await transporter.sendMail({
+                        from: `"InventoryPro Order Alerts" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
+                        to: adminTo,
+                        subject: `[Status Update] Order #${order.invoice_no} transitioned to ${String(newStatus).toUpperCase()}`,
+                        html: adminTemplate.html,
+                        text: adminTemplate.text,
+                    });
+                    console.log(`📧 Admin order status update alert sent to ${adminTo} for Invoice #${order.invoice_no}`);
+                } catch (oneAdminErr) {
+                    console.warn(`⚠️ Failed sending admin order status update to ${adminTo}:`, oneAdminErr.message);
+                }
+            }
+        } catch (admErr) {
+            console.warn("⚠️ Failed dispatching admin order status notifications:", admErr.message);
+        }
     } catch (err) {
         console.warn("⚠️ Order status update email failed:", err.message);
     }

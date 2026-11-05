@@ -1585,3 +1585,182 @@ export const getAdminNewReturnAlertEmailTemplate = ({
         }),
     };
 };
+
+
+// ==========================================
+// 12. NEW PURCHASE CREATED & STATUS TEMPLATES
+// ==========================================
+export const getPurchaseReceiptEmailTemplate = ({
+    purchase_no,
+    supplier_name,
+    warehouse_name,
+    purchase_status,
+    total_amount,
+    items = [],
+    creator_name,
+    adminPortalUrl,
+}) => {
+    const safePurchaseNo = escapeHtml(purchase_no || "PO-0000");
+    const safeSupplier = escapeHtml(supplier_name || "Supplier");
+    const safeWarehouse = escapeHtml(warehouse_name || "Central Warehouse");
+    const safeStatus = escapeHtml(purchase_status || "pending").toUpperCase();
+    const safeCreator = escapeHtml(creator_name || "Procurement Team");
+    const targetUrl = adminPortalUrl || `${process.env.FRONTEND_URL || "http://localhost:5173"}/purchases`;
+
+    const itemsRows = Array.isArray(items) && items.length > 0
+        ? items.map(item => `
+            <tr style="border-bottom: 1px solid ${EMAIL_PALETTE.borderColor};">
+                <td style="padding: 10px 12px; font-size: 13px; color: ${EMAIL_PALETTE.textPrimary};">
+                    <strong>${escapeHtml(item.product_name || "Product")}</strong>
+                    ${item.product_code ? `<br/><span style="font-size: 11px; color: ${EMAIL_PALETTE.textMuted}; font-family: monospace;">${escapeHtml(item.product_code)}</span>` : ""}
+                </td>
+                <td align="center" style="padding: 10px 12px; font-size: 13px; color: ${EMAIL_PALETTE.textPrimary};">
+                    ${item.quantity || 1}
+                </td>
+                <td align="right" style="padding: 10px 12px; font-size: 13px; color: ${EMAIL_PALETTE.textPrimary};">
+                    ₹${Number(item.unitcost || 0).toLocaleString("en-IN")}
+                </td>
+                <td align="right" style="padding: 10px 12px; font-size: 13px; font-weight: 700; color: ${EMAIL_PALETTE.textPrimary};">
+                    ₹${(Number(item.quantity || 1) * Number(item.unitcost || 0)).toLocaleString("en-IN")}
+                </td>
+            </tr>
+        `).join("")
+        : `<tr><td colspan="4" style="padding: 12px; text-align: center; color: ${EMAIL_PALETTE.textMuted};">Items recorded in procurement order.</td></tr>`;
+
+    const content = `
+        <div style="background-color: #ecfdf5; border-left: 4px solid #10b981; border-radius: 4px; padding: 12px 16px; margin-bottom: 20px;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <td>
+                        <span style="font-size: 12px; font-weight: 700; color: #047857; text-transform: uppercase;">
+                            📥 New Purchase Order Created
+                        </span>
+                    </td>
+                    <td align="right">
+                        <span style="display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700; background-color: #d1fae5; color: #065f46;">
+                            ${safeStatus}
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p style="margin: 0 0 16px 0; font-size: 15px; color: ${EMAIL_PALETTE.textSecondary}; line-height: 1.6;">
+            A new supplier procurement order <strong>#${safePurchaseNo}</strong> has been logged by <strong>${safeCreator}</strong> on <strong>${escapeHtml(BRAND_NAME)}</strong>.
+        </p>
+
+        <!-- Meta Grid -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom: 20px;">
+            <tr>
+                <td width="48%" valign="top" style="background-color: ${EMAIL_PALETTE.bgAlt}; border: 1px solid ${EMAIL_PALETTE.borderColor}; border-radius: 8px; padding: 14px 16px;">
+                    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: ${EMAIL_PALETTE.textMuted}; margin-bottom: 4px;">🏢 Supplier</div>
+                    <div style="font-size: 14px; font-weight: 700; color: ${EMAIL_PALETTE.textPrimary};">${safeSupplier}</div>
+                </td>
+                <td width="4%"></td>
+                <td width="48%" valign="top" style="background-color: ${EMAIL_PALETTE.bgAlt}; border: 1px solid ${EMAIL_PALETTE.borderColor}; border-radius: 8px; padding: 14px 16px;">
+                    <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: ${EMAIL_PALETTE.textMuted}; margin-bottom: 4px;">🏭 Destination Warehouse</div>
+                    <div style="font-size: 14px; font-weight: 700; color: ${EMAIL_PALETTE.textPrimary};">${safeWarehouse}</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Items Table -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border: 1px solid ${EMAIL_PALETTE.borderColor}; border-radius: 8px; overflow: hidden; margin-bottom: 20px;">
+            <thead>
+                <tr style="background-color: ${EMAIL_PALETTE.bgAlt}; border-bottom: 1px solid ${EMAIL_PALETTE.borderColor};">
+                    <th align="left" style="padding: 10px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: ${EMAIL_PALETTE.textMuted};">Product</th>
+                    <th align="center" style="padding: 10px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: ${EMAIL_PALETTE.textMuted};">Qty</th>
+                    <th align="right" style="padding: 10px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: ${EMAIL_PALETTE.textMuted};">Unit Cost</th>
+                    <th align="right" style="padding: 10px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; color: ${EMAIL_PALETTE.textMuted};">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${itemsRows}
+                <tr style="background-color: ${EMAIL_PALETTE.bgAlt}; border-top: 2px solid ${EMAIL_PALETTE.borderColor};">
+                    <td colspan="3" align="right" style="padding: 12px; font-weight: 700; font-size: 14px; color: ${EMAIL_PALETTE.textPrimary};">Total Amount:</td>
+                    <td align="right" style="padding: 12px; font-weight: 800; font-size: 16px; color: #047857;">₹${Number(total_amount || 0).toLocaleString("en-IN")}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        ${renderBulletproofButton("View Purchase Order in Portal", targetUrl)}
+    `;
+
+    return {
+        subject: `📥 New Purchase Order Created – #${safePurchaseNo} (${safeSupplier}) – ${BRAND_NAME}`,
+        text: `New Purchase Order #${safePurchaseNo} created for ${safeSupplier} at ${safeWarehouse}. Total: ₹${total_amount}.\n\nView details: ${targetUrl}`,
+        html: baseEmailWrapper({
+            content,
+            previewText: `New Purchase Order #${safePurchaseNo} logged for ${safeSupplier}`,
+            categoryTag: "Procurement alert",
+        }),
+    };
+};
+
+export const getPurchaseStatusUpdateEmailTemplate = ({
+    purchase_no,
+    supplier_name,
+    warehouse_name,
+    old_status,
+    new_status,
+    total_amount,
+    adminPortalUrl,
+}) => {
+    const safePurchaseNo = escapeHtml(purchase_no || "PO-0000");
+    const safeSupplier = escapeHtml(supplier_name || "Supplier");
+    const safeWarehouse = escapeHtml(warehouse_name || "Warehouse");
+    const safeNewStatus = escapeHtml(new_status || "updated").toUpperCase();
+    const safeOldStatus = escapeHtml(old_status || "previous").toUpperCase();
+    const targetUrl = adminPortalUrl || `${process.env.FRONTEND_URL || "http://localhost:5173"}/purchases`;
+
+    const content = `
+        <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; border-radius: 4px; padding: 12px 16px; margin-bottom: 20px;">
+            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    <td>
+                        <span style="font-size: 12px; font-weight: 700; color: #1d4ed8; text-transform: uppercase;">
+                            📦 Purchase Status Updated
+                        </span>
+                    </td>
+                    <td align="right">
+                        <span style="display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700; background-color: #dbeafe; color: #1e40af;">
+                            ${safeNewStatus}
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p style="margin: 0 0 16px 0; font-size: 15px; color: ${EMAIL_PALETTE.textSecondary}; line-height: 1.6;">
+            The status of purchase order <strong>#${safePurchaseNo}</strong> (${safeSupplier}) has transitioned from <strong>${safeOldStatus}</strong> to <strong>${safeNewStatus}</strong>.
+        </p>
+
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color: ${EMAIL_PALETTE.bgAlt}; border: 1px solid ${EMAIL_PALETTE.borderColor}; border-radius: 8px; padding: 14px 16px; margin-bottom: 20px;">
+            <tr>
+                <td>
+                    <div style="font-size: 13px; color: ${EMAIL_PALETTE.textPrimary}; margin-bottom: 6px;">
+                        <strong>Warehouse:</strong> ${safeWarehouse}
+                    </div>
+                    <div style="font-size: 13px; color: ${EMAIL_PALETTE.textPrimary}; margin-bottom: 6px;">
+                        <strong>Supplier:</strong> ${safeSupplier}
+                    </div>
+                    <div style="font-size: 13px; color: ${EMAIL_PALETTE.textPrimary};">
+                        <strong>Order Valuation:</strong> ₹${Number(total_amount || 0).toLocaleString("en-IN")}
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        ${renderBulletproofButton("Review Purchase in Portal", targetUrl)}
+    `;
+
+    return {
+        subject: `📦 Purchase Order #${safePurchaseNo} Status: ${safeNewStatus} – ${BRAND_NAME}`,
+        text: `Purchase Order #${safePurchaseNo} (${safeSupplier}) updated from ${safeOldStatus} to ${safeNewStatus}.\n\nView details: ${targetUrl}`,
+        html: baseEmailWrapper({
+            content,
+            previewText: `Purchase #${safePurchaseNo} status updated to ${safeNewStatus}`,
+            categoryTag: "Procurement alert",
+        }),
+    };
+};
