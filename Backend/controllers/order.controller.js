@@ -663,7 +663,7 @@ const sendOrderConfirmationNotification = async (orderId) => {
                             ...adminTemplate,
                         });
                         console.log(
-                            `📧 Admin new order alert sent to ${adminTo} for Invoice #${order.invoice_no}`
+                            `📧 Admin new order notification sent to ${adminTo} for Invoice #${order.invoice_no}`
                         );
                     } catch (oneAdminErr) {
                         console.warn(
@@ -740,7 +740,7 @@ const sendOrderStatusNotification = async (orderId, newStatus) => {
                         html: adminTemplate.html,
                         text: adminTemplate.text,
                     });
-                    console.log(`📧 Admin order status update alert sent to ${adminTo} for Invoice #${order.invoice_no}`);
+                    console.log(`📧 Admin order status update notification sent to ${adminTo} for Invoice #${order.invoice_no}`);
                 } catch (oneAdminErr) {
                     console.warn(`⚠️ Failed sending admin order status update to ${adminTo}:`, oneAdminErr.message);
                 }
@@ -816,7 +816,7 @@ const checkAndTriggerLowStockAlert = async (productIds) => {
                     ...emailTemplate,
                 });
                 console.log(
-                    `🚨 Instant low-stock email alert sent to ${recipient} for ${lowStockProducts.length} items`
+                    `📧 Instant low-stock email notification sent to ${recipient} for ${lowStockProducts.length} items`
                 );
             } catch (sendErr) {
                 console.warn(

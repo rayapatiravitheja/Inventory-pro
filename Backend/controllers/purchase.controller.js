@@ -249,7 +249,7 @@ const sendPurchaseCreationNotification = async (purchaseId) => {
                     to: adminTo,
                     ...template,
                 });
-                console.log(`📧 Admin purchase alert sent to ${adminTo} for PO #${purchase.purchase_no}`);
+                console.log(`📧 Admin purchase notification sent to ${adminTo} for PO #${purchase.purchase_no}`);
             } catch (oneAdminErr) {
                 console.warn(`⚠️ Failed sending purchase alert to ${adminTo}:`, oneAdminErr.message);
             }
@@ -306,7 +306,7 @@ const sendPurchaseStatusNotification = async (purchaseId, oldStatus, newStatus) 
                     to: adminTo,
                     ...template,
                 });
-                console.log(`📧 Admin purchase status update sent to ${adminTo} for PO #${purchase.purchase_no}`);
+                console.log(`📧 Admin purchase status notification sent to ${adminTo} for PO #${purchase.purchase_no}`);
             } catch (oneAdminErr) {
                 console.warn(`⚠️ Failed sending purchase status update to ${adminTo}:`, oneAdminErr.message);
             }

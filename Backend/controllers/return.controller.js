@@ -426,7 +426,7 @@ const sendReturnCreationEmails = async (returnId) => {
                             ...adminTemplate,
                         });
                         console.log(
-                            `📧 Admin return alert sent to ${adminTo} for Return #${returnReq.return_no} (Order #${invoiceNo})`
+                            `📧 Admin return notification sent to ${adminTo} for Return #${returnReq.return_no} (Order #${invoiceNo})`
                         );
                     } catch (oneAdminErr) {
                         console.warn(
@@ -513,7 +513,7 @@ const sendReturnNotificationEmail = async (returnId) => {
                         html: adminUpdateTemplate.html,
                         text: adminUpdateTemplate.text,
                     });
-                    console.log(`📧 Admin return status alert sent to ${adminTo} (Return #${populated.return_no})`);
+                    console.log(`📧 Admin return status notification sent to ${adminTo} (Return #${populated.return_no})`);
                 } catch (oneAdminErr) {
                     console.warn(`⚠️ Failed sending admin return status alert to ${adminTo}:`, oneAdminErr.message);
                 }
