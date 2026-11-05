@@ -10,8 +10,17 @@ const connectDB = async () => {
     }
 
     try {
+        let connectionUrl = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
+        if (!connectionUrl.includes(DB_NAME)) {
+            if (connectionUrl.includes("?")) {
+                connectionUrl = connectionUrl.replace("?", `/${DB_NAME}?`);
+            } else {
+                connectionUrl = `${connectionUrl.replace(/\/$/, "")}/${DB_NAME}`;
+            }
+        }
+
         const conn = await mongoose.connect(
-            `${process.env.MONGODB_URI}/${DB_NAME}`,
+            connectionUrl,
             {
                 maxPoolSize: 10,
                 serverSelectionTimeoutMS: 5000,
