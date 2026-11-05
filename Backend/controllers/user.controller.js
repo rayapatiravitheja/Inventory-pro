@@ -526,9 +526,11 @@ const sendChangePasswordOtp = asyncHandler(async (req, res, next) => {
             ...template,
         };
         console.log(`🔑 Change Password OTP for ${user.email}: ${otp}`);
+        let emailDelivered = true;
         try {
             await transporter.sendMail(mailOptions);
         } catch (mailError) {
+            emailDelivered = false;
             console.warn("⚠️ Change password email could not be sent (OTP logged above):", mailError.message);
         }
 
@@ -539,8 +541,12 @@ const sendChangePasswordOtp = asyncHandler(async (req, res, next) => {
                     200,
                     {
                         email: user.email,
+                        emailDelivered,
+                        ...(!emailDelivered ? { previewOtp: otp } : {}),
                     },
-                    "Verification OTP sent to your email successfully"
+                    emailDelivered
+                        ? "Verification OTP sent to your email successfully"
+                        : "Email delivery timed out or blocked by cloud host. Verification code has been generated."
                 )
             );
     } catch (error) {

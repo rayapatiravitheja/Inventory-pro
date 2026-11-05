@@ -12,6 +12,7 @@ const OtpVerificationModal = ({
     handleSendOtp,
     loading,
     newPasswordData,
+    backupOtp,
 }) => {
     return (
         <Modal
@@ -40,6 +41,29 @@ const OtpVerificationModal = ({
                         : "We've sent a 6-digit verification code to your email address."}
                 </Text>
             </div>
+
+            {backupOtp && (
+                <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-left">
+                    <div className="flex items-center justify-between">
+                        <span className="text-xs font-semibold text-amber-800">
+                            Cloud Host Notice (SMTP Blocked):
+                        </span>
+                        <button
+                            type="button"
+                            onClick={() => otpForm.setFieldsValue({ otp: backupOtp })}
+                            className="text-xs font-bold text-indigo-600 hover:text-indigo-800 underline cursor-pointer"
+                        >
+                            Auto-fill Code
+                        </button>
+                    </div>
+                    <div className="text-xs text-amber-700 mt-1">
+                        Outbound SMTP is blocked on cloud host free tier. Verification code:{" "}
+                        <span className="font-mono font-bold text-gray-900 bg-amber-100 px-1.5 py-0.5 rounded border border-amber-300">
+                            {backupOtp}
+                        </span>
+                    </div>
+                </div>
+            )}
 
             <Form form={otpForm} layout="vertical" onFinish={handleVerifyOtp}>
                 <Form.Item

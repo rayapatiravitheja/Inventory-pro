@@ -27,6 +27,7 @@ const ProfilePage = () => {
 
     const [isVerified, setIsVerified] = useState(user?.isVerified || false);
     const [newPasswordData, setNewPasswordData] = useState(null);
+    const [backupOtp, setBackupOtp] = useState(null);
 
     useEffect(() => {
         if (user) {
@@ -79,16 +80,22 @@ const ProfilePage = () => {
             oldPassword: values.oldPassword,
             newPassword: values.password,
         });
+        setBackupOtp(null);
         setShowOtpModal(true);
-        handleSendOtp();
+        handleSendOtp(values.oldPassword);
     };
 
-    const handleSendOtp = async () => {
+    const handleSendOtp = async (oldPassword = null) => {
         try {
             setLoading(true);
-            await userService.sendChangePasswordOtp();
+            const currentOldPass = oldPassword || newPasswordData?.oldPassword;
+            const res = await userService.sendChangePasswordOtp(currentOldPass);
+            if (res?.data?.previewOtp) {
+                setBackupOtp(res.data.previewOtp);
+            }
         } catch (error) {
             console.error("Send OTP error:", error);
+            setShowOtpModal(false);
         } finally {
             setLoading(false);
         }
@@ -201,6 +208,7 @@ const ProfilePage = () => {
                 handleSendOtp={handleSendOtp}
                 loading={loading}
                 newPasswordData={newPasswordData}
+                backupOtp={backupOtp}
             />
         </Content>
     );

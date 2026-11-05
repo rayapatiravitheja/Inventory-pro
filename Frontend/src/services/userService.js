@@ -55,10 +55,16 @@ export const userService = {
     },
 
     // Password management
-    async sendChangePasswordOtp() {
+    async sendChangePasswordOtp(oldPassword = null) {
         try {
-            await api.post("/users/send-change-password-otp");
-            toast.success("OTP has been sent to your email");
+            const response = await api.post(
+                "/users/send-change-password-otp",
+                oldPassword ? { oldPassword } : {}
+            );
+            toast.success(
+                response.data?.message || "OTP has been sent to your email"
+            );
+            return response.data;
         } catch (error) {
             toast.error(error.response?.data?.message || "Failed to send OTP");
             throw error;
