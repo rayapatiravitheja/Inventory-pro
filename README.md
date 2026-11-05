@@ -6,6 +6,11 @@
 [![MongoDB](https://img.shields.io/badge/mongodb-Mongoose%208.x-green.svg)](https://www.mongodb.com/)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
 [![Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
+[![Frontend](https://img.shields.io/badge/Vercel-Live%20Storefront-black.svg?logo=vercel)](https://inventory-pro-azure-two.vercel.app/)
+[![Backend](https://img.shields.io/badge/Render-Live%20API-46E3B7.svg?logo=render)](https://inventorypro-api-l20i.onrender.com)
+
+- 🌐 **Live Web App**: [https://inventory-pro-azure-two.vercel.app/](https://inventory-pro-azure-two.vercel.app/)
+- ⚡ **Live REST API**: [https://inventorypro-api-l20i.onrender.com](https://inventorypro-api-l20i.onrender.com)
 
 **InventoryPro** is a production-ready, full-stack **Inventory Management System (IMS), Warehouse Management System (WMS), and Customer E-Commerce Storefront** built on the MERN stack (MongoDB, Express, React, Node.js). 
 
