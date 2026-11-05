@@ -1,62 +1,112 @@
 # 📦 InventoryPro — Enterprise Multi-Tenant Inventory & Warehouse Management System
 
-[![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
-[![React](https://img.shields.io/badge/react-18.x-blue.svg)](https://react.dev/)
-[![Express](https://img.shields.io/badge/express-4.x-lightgrey.svg)](https://expressjs.com/)
-[![MongoDB](https://img.shields.io/badge/mongodb-Mongoose%208.x-green.svg)](https://www.mongodb.com/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
-[![Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
-[![Frontend](https://img.shields.io/badge/Vercel-Live%20Storefront-black.svg?logo=vercel)](https://inventory-pro-azure-two.vercel.app/)
-[![Backend](https://img.shields.io/badge/Render-Live%20API-46E3B7.svg?logo=render)](https://inventorypro-api-l20i.onrender.com)
+[![Node](https://img.shields.io/badge/Node.js-%3E%3D18.0.0-339933.svg?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-18.3.1-61DAFB.svg?logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-6.1.0-646CFF.svg?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Express](https://img.shields.io/badge/Express-4.21.2-000000.svg?logo=express&logoColor=white)](https://expressjs.com/)
+[![MongoDB Atlas](https://img.shields.io/badge/MongoDB%20Atlas-Mongoose%208.10-47A248.svg?logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
+[![Razorpay](https://img.shields.io/badge/Razorpay-Live%20Gateway-0C2340.svg?logo=razorpay&logoColor=white)](https://razorpay.com/)
+[![Brevo API](https://img.shields.io/badge/Brevo-HTTPS%20REST%20v3-0B996F.svg?logo=brevo&logoColor=white)](https://www.brevo.com/)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-CDN%20Storage-3448C5.svg?logo=cloudinary&logoColor=white)](https://cloudinary.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- 🌐 **Live Web App**: [https://inventory-pro-azure-two.vercel.app/](https://inventory-pro-azure-two.vercel.app/)
-- ⚡ **Live REST API**: [https://inventorypro-api-l20i.onrender.com](https://inventorypro-api-l20i.onrender.com)
+> **Live Production Deployments:**  
+> 🌐 **Storefront & Admin Web App (Vercel)**: [https://inventory-pro-azure-two.vercel.app/](https://inventory-pro-azure-two.vercel.app/)  
+> ⚡ **Backend REST API (Render)**: [https://inventorypro-api-l20i.onrender.com](https://inventorypro-api-l20i.onrender.com)  
+> 🩺 **API Healthcheck**: [https://inventorypro-api-l20i.onrender.com/](https://inventorypro-api-l20i.onrender.com/)
 
-**InventoryPro** is a production-ready, full-stack **Inventory Management System (IMS), Warehouse Management System (WMS), and Customer E-Commerce Storefront** built on the MERN stack (MongoDB, Express, React, Node.js). 
+---
 
-Designed for enterprise inventory tracking, multi-facility warehouse operations, and seamless digital commerce, InventoryPro handles the complete supply-chain lifecycle: from supplier procurement and atomic multi-warehouse stock allocations to customer ordering, automated Razorpay payment verification, instant GST invoice generation, automated customer return workflows (RMA), low-stock weekly schedulers, and double-entry immutable audit ledgers.
+## 📖 Executive Summary
+
+**InventoryPro** is an enterprise-grade, production-tested **Inventory Management System (IMS), Warehouse Management System (WMS), and Customer E-Commerce Storefront** engineered on the MERN stack (MongoDB Atlas, Express.js, React 18, Node.js).
+
+Designed to manage high-velocity, modern supply-chain lifecycles, InventoryPro unites physical warehouse operations with digital commerce: from multi-facility inbound procurement and atomic stock deduction to customer ordering, Razorpay payment verification, instant GST invoice generation, automated 7-day customer return workflows (RMA) with automated gateway refunds, low-stock weekly schedulers, and double-entry immutable audit ledgers.
 
 ---
 
 ## 📑 Table of Contents
 
-- [Key System Capabilities](#-key-system-capabilities)
-- [System Personas & Role-Based Access Control](#-system-personas--role-based-access-control)
+- [Executive Summary](#-executive-summary)
 - [System Architecture](#-system-architecture)
+- [System Personas & Role-Based Access Control (RBAC)](#-system-personas--role-based-access-control-rbac)
+- [Default System Credentials](#-default-system-credentials)
 - [Core Functional Modules](#-core-functional-modules)
   - [1. Product Catalog & Multi-Image Gallery](#1-product-catalog--multi-image-gallery)
-  - [2. Warehouse Management System (WMS)](#2-warehouse-management-system-wms)
-  - [3. Customer Storefront & Online Ordering](#3-customer-storefront--online-ordering)
-  - [4. Customer Returns & RMA with Automated Refunds](#4-customer-returns--rma-with-automated-refunds)
-  - [5. Business Reports & Low-Stock Alerts Engine](#5-business-reports--low-stock-alerts-engine)
-  - [6. Immutable Double-Entry Stock Ledger](#6-immutable-double-entry-stock-ledger)
+  - [2. Multi-Facility Warehouse Management (WMS)](#2-multi-facility-warehouse-management-wms)
+  - [3. Customer E-Commerce Storefront & Instant Checkout](#3-customer-e-commerce-storefront--instant-checkout)
+  - [4. Customer Returns (RMA) & Automated Gateway Refunds](#4-customer-returns-rma--automated-gateway-refunds)
+  - [5. Multi-Tiered Transactional Email Engine (Port 443 Resilient)](#5-multi-tiered-transactional-email-engine-port-443-resilient)
+  - [6. Business Intelligence, Low-Stock Scheduler & Audit Logs](#6-business-intelligence-low-stock-scheduler--audit-logs)
+  - [7. Immutable Double-Entry Stock Ledger](#7-immutable-double-entry-stock-ledger)
 - [Technology Stack](#-technology-stack)
 - [Database Architecture (17 Data Models)](#-database-architecture-17-data-models)
-- [REST API Reference](#-rest-api-reference)
-- [Installation & Getting Started](#-installation--getting-started)
-- [Environment Variables](#-environment-variables)
-- [Default System Credentials](#-default-system-credentials)
-- [Security & Engineering Highlights](#-security--engineering-highlights)
-- [Contributing & License](#-contributing--license)
+- [Comprehensive REST API Reference](#-comprehensive-rest-api-reference)
+- [Environment Variables Guide](#-environment-variables-guide)
+- [Local Installation & Development](#-local-installation--development)
+- [Production Deployment Guide](#-production-deployment-guide)
+- [Security & Production Hardening](#-security--production-hardening)
+- [Author & License](#-author--license)
 
 ---
 
-## 🧠 Key System Capabilities
+## 🏛️ System Architecture
 
-- **Atomic Stock Deductions & Replenishments**: Uses atomic MongoDB updates (`findOneAndUpdate` with `$gte` guards) and MongoDB session transactions (`startTransaction` / `abortTransaction`) to eliminate overselling and race conditions under heavy concurrent ordering.
-- **Enterprise Multi-Image Support**: Products support galleries with up to 8 high-resolution images, primary cover photo selection, dynamic thumbnail switchers in drawers, table indicators (`+2`, `+3`), and storefront order preview carousels.
-- **Rigid WMS Location Hierarchy**: Facility addresses strictly enforce `Street/Landmark → State (Dropdown) → City (Dropdown) → 6-digit PIN code ([0-9]{6})` with facility contact noise removed.
-- **Dual-Party Automated Return Notifications**: When a customer requests a product return, automated Nodemailer/SMTP emails are simultaneously delivered to the **customer** (with tracking details) and the **admin** (with action-required review links).
-- **Automated Razorpay Payment & Instant Refund Engine**: Online payment gateway verification via HMAC-SHA256 signatures, paired with automated Razorpay Refund API execution when administrators approve customer returns.
-- **Automated Low-Stock Scheduler & Live Audit**: In-process `node-cron` scan runs every Monday at 9:00 AM IST to alert administrators of items falling below minimum safety thresholds, backed by a persistent MongoDB `AlertLog` table and an interactive manual test trigger in the UI.
-- **On-the-Fly Branded GST Tax Invoices**: Generates PDF tax invoices on demand with `pdfkit`, incorporating itemised tables, GST tax rates, HSN codes, company details, and authorized signatures.
-- **CSV Bulk Product Upload**: Ingests up to 500 rows per batch with per-row validation, reference resolution for categories/units, and HTTP 207 Multi-Status partial error reporting.
+InventoryPro is structured into decoupled, maintainable layers following the **Controller-Service-Repository** architectural pattern:
+
+```mermaid
+flowchart TD
+    subgraph ClientLayer["Frontend (React 18 + Vite + Ant Design + Tailwind)"]
+        SPA["Single Page App (Vercel)"]
+        CustomerPortal["Customer Storefront (/customer/catalog)"]
+        AdminDashboard["Admin & Manager WMS (/dashboard)"]
+        AxiosInterceptors["Axios Interceptors (Bearer Token & Cookies)"]
+    end
+
+    subgraph APILayer["Backend REST API (Express 4.x + Node.js ESM on Render)"]
+        CORS["CORS & Cookie Parser"]
+        AuthMid["JWT Auth & Role Verification (RBAC)"]
+        Router["API Route Controllers"]
+        Services["Business Logic & Service Layer"]
+    end
+
+    subgraph PersistenceLayer["Data & Persistence (MongoDB Atlas)"]
+        Atlas[("MongoDB Atlas (17 Schemas with Compound Indexes)")]
+        Transactions["ACID Transactions & Atomic Locking"]
+    end
+
+    subgraph CloudServices["Third-Party Cloud Services"]
+        BrevoAPI["Brevo HTTPS API (Port 443)"]
+        ResendAPI["Resend HTTPS API (Port 443)"]
+        GmailSMTP["Gmail SMTP (Port 465 SSL/TLS)"]
+        RazorpayEngine["Razorpay Gateway (Orders & Refunds)"]
+        CloudinaryCDN["Cloudinary CDN (Multi-Image Storage)"]
+        PDFKitEngine["PDFKit Engine (GST Invoices)"]
+    end
+
+    SPA --> AxiosInterceptors
+    CustomerPortal --> AxiosInterceptors
+    AdminDashboard --> AxiosInterceptors
+    AxiosInterceptors --> CORS
+    CORS --> AuthMid
+    AuthMid --> Router
+    Router --> Services
+    Services --> Transactions
+    Transactions --> Atlas
+
+    Services --> BrevoAPI
+    Services --> ResendAPI
+    Services --> GmailSMTP
+    Services --> RazorpayEngine
+    Services --> CloudinaryCDN
+    Services --> PDFKitEngine
+```
 
 ---
 
-## 👥 System Personas & Role-Based Access Control
+## 👥 System Personas & Role-Based Access Control (RBAC)
 
-The platform enforces a strict 3-tier Role-Based Access Control (RBAC) hierarchy backed by JWT authentication:
+The platform enforces a strict 3-tier Role-Based Access Control (RBAC) hierarchy backed by signed JSON Web Tokens (JWT) stored in HTTP-only cookies and Authorization headers:
 
 ```
                   ┌───────────────────────────────┐
@@ -70,207 +120,229 @@ The platform enforces a strict 3-tier Role-Based Access Control (RBAC) hierarchy
    └─────┬─────┘           └─────┬─────┘           └─────┬─────┘
          │                       │                       │
          ├─ Full Global Access   ├─ Assigned Facilities  ├─ E-Commerce Storefront
-         ├─ User & Role Mgmt     ├─ Inbound GRN          ├─ Live Stock Browsing
+         ├─ User & Role Mgmt     ├─ Inbound GRN (Purch.) ├─ Live Stock Browsing
          ├─ Facility Allocations ├─ Stock Transfers      ├─ Cart & Instant Checkout
          ├─ Master Stock Reports ├─ Cycle Counts / Adj.  ├─ Real-time Order Tracking
-         ├─ Alert Audit Controls ├─ RMA Approvals        ├─ Return Requests (RMA)
-         └─ Financial Overview   └─ Warehouse Ledgers    └─ Saved Addresses & OTPs
+         ├─ Alert Audit Controls ├─ RMA Review & Restock ├─ Return Requests (RMA)
+         ├─ Multi-Image Catalog  ├─ Warehouse Ledgers    ├─ Download PDF Invoices
+         └─ Financial Overview   └─ Stock Movements      └─ Saved Shipping Profile
 ```
 
-| Feature / Permission | Admin | Warehouse Manager | Customer |
+### 📋 Feature Access Matrix
+
+| Feature / Module Capability | Administrator | Warehouse Manager | Customer |
 | :--- | :---: | :---: | :---: |
-| Global Analytics & Valuation Dashboard | ✅ | ❌ | ❌ |
-| User & Role Management (`/users`) | ✅ | ❌ | ❌ |
-| Create / Edit Products & Galleries | ✅ | ❌ | ❌ |
-| Warehouse Facility Setup & Location Config | ✅ | ❌ | ❌ |
-| Inter-Warehouse Transfers & Approvals | ✅ | ✅ (Assigned) | ❌ |
-| Stock Counts & Adjustments (`adjustment_add/deduct`) | ✅ | ✅ (Assigned) | ❌ |
-| Customer Storefront Catalog (`/customer/catalog`) | ✅ | ✅ | ✅ |
-| Place Orders & Pay via Razorpay / COD | ❌ | ❌ | ✅ |
-| Request Product Returns (RMA) | ❌ | ❌ | ✅ |
-| Authorize Returns & Issue Razorpay Refunds | ✅ | ✅ | ❌ |
-| Restock Returned Goods into Facility | ✅ | ✅ | ❌ |
-| Low-Stock Scheduler Controls & Audit Logs | ✅ | ❌ | ❌ |
-| Stream Branded PDF Tax Invoices | ✅ | ✅ | ✅ (Own) |
+| **Global Analytics & Valuation Dashboard** | ✅ Full Scope | ❌ | ❌ |
+| **User & Role Management (`/admin/users`)** | ✅ Full Scope | ❌ | ❌ |
+| **Create / Edit Products & Multi-Image Gallery** | ✅ Full Scope | ❌ | ❌ |
+| **Bulk CSV Catalog Ingest (500 items/batch)** | ✅ Full Scope | ❌ | ❌ |
+| **Warehouse Facility Setup & Address Hierarchy**| ✅ Full Scope | ❌ | ❌ |
+| **Inter-Warehouse Transfers & Transit Status** | ✅ Global | ✅ Assigned Hubs | ❌ |
+| **Physical Stock Cycle Counts & Adjustments** | ✅ Global | ✅ Assigned Hubs | ❌ |
+| **Inbound Procurement Orders & GRN Receiving** | ✅ Global | ✅ Assigned Hubs | ❌ |
+| **Customer Storefront Catalog & Cart** | ✅ Preview | ✅ Preview | ✅ Full Access |
+| **Checkout (Razorpay Online / Cash on Delivery)**| ❌ | ❌ | ✅ Full Access |
+| **Customer Returns Submission (RMA 7-Day Window)**| ❌ | ❌ | ✅ Full Access |
+| **Review RMA & Trigger Automated Razorpay Refund**| ✅ Global | ✅ Assigned Hubs | ❌ |
+| **Restock Returned Items into Facility Bin** | ✅ Global | ✅ Assigned Hubs | ❌ |
+| **Low-Stock Scheduler Controls & Live Trigger** | ✅ Global | ❌ (View Logs) | ❌ |
+| **Dual Admin Notification Routing** | ✅ Primary Owner | ❌ | ❌ |
+| **Download Official A4 GST Tax Invoices** | ✅ Any Order | ✅ Assigned Orders | ✅ Own Orders |
 
 ---
 
-## 🏛️ System Architecture
+## 🔑 Default System Credentials
 
-The application is structured into decoupled, maintainable layers following the **Controller-Service-Repository** pattern:
+To test and verify the live deployment or local installation, use the following pre-configured user credentials:
 
-```
-Frontend (React 18 + Vite + Ant Design + Tailwind CSS)
-   │
-   ▼ HTTP Requests / Axios Interceptors (JWT Bearer Token / HTTP-only Cookies)
-Backend API (Express 4.x + Node.js ESM)
-   │
-   ├── Middlewares:
-   │     ├── auth.middleware.js        (JWT extraction from Cookie/Header, user validation)
-   │     ├── rbac.middleware.js        (requireRole: 'admin', 'manager', 'customer')
-   │     ├── multer.middleware.js      (Memory/disk storage + MIME image/CSV validation)
-   │     └── error.middleware.js       (Centralized error serialization to ApiError)
-   │
-   ├── Controllers:
-   │     ├── product.controller.js     (Product CRUD, multi-image upload, stock ledger)
-   │     ├── order.controller.js       (Order lifecycle, PDF invoice streaming)
-   │     ├── payment.controller.js     (Razorpay order creation, HMAC signature verification)
-   │     ├── return.controller.js      (Customer return requests, status machine, restock)
-   │     ├── warehouse.controller.js   (WMS operations, facility CRUD, bin locations)
-   │     └── scheduler.controller.js   (Cron controls, manual alert trigger, alert logs)
-   │
-   ├── Services:
-   │     ├── order.service.js          (Order state machine, atomic stock deduction)
-   │     ├── purchase.service.js       (Procurement lifecycle, GRN receiving, return preview)
-   │     ├── warehouse.service.js      (Stock synchronization, multi-facility allocation)
-   │     └── adjustment.service.js     (Physical inventory variance reconciliation)
-   │
-   └── Data & Utilities:
-         ├── models/                   (17 Mongoose schemas with compound indexes)
-         ├── utils/nodemailer.js       (Gmail SMTP singleton over TLS/SSL)
-         ├── utils/emailTemplates.js   (Inline CSS, responsive HTML email templates)
-         └── utils/lowStockScheduler.js(Singleton cron engine with alert logging)
-```
+| Persona | Email Address | Password | Intended Role & Features |
+| :--- | :--- | :--- | :--- |
+| **Primary System Owner** | `rayapatiravitheja@gmail.com` | `Theja@1822` *(or `Admin@123`)* | Global master admin, default recipient for operational alerts, low-stock notices, order notifications, and return alerts. |
+| **Global Administrator** | `admin@inventorypro.com` | `Admin@123` | System oversight, catalog management, facility management, and audit log inspection. |
+| **Warehouse Manager** | `manager@inventorypro.com` | `Manager@123` | Inbound receiving, warehouse stock management, bin allocations, inter-facility transfers, return restocking. |
+| **Customer User** | `99230040998@klu.ac.in` | `Customer@123` | Storefront catalog browsing, cart operations, Razorpay checkout, live order tracking, and RMA return submissions. |
 
 ---
 
 ## 🎯 Core Functional Modules
 
 ### 1. Product Catalog & Multi-Image Gallery
-- **Product Identification**: Strictly enforces an 8-character uppercase alphanumeric SKU (`[A-Z0-9]{8}`, e.g., `MBP16001`, `ACGM0101`).
-- **Multi-Image Gallery**: Upload up to 8 photos per item. Allows designated primary cover selection, live interactive thumbnail switching in product drawers, and drag-and-drop reordering.
-- **Stock Tracking**: Stores unit cost, selling price, safety alert threshold (default: 10 units), and warehouse bin location (`A-01-01`).
-- **Bulk CSV Upload**: Validates rows, resolves category and unit IDs automatically, deduplicates SKU codes, and returns HTTP 207 Multi-Status reports for failed rows.
+- **Strict SKU Schema**: Standardizes an 8-character uppercase alphanumeric SKU (`[A-Z0-9]{8}`, e.g., `MBP16001`, `ACGM0101`).
+- **8-Image Gallery**: Supports up to 8 high-resolution photos per product, uploaded via Multer and stored on Cloudinary's global CDN.
+- **Dynamic Cover Selection**: Allows operators to set any uploaded photo as the primary cover (`product_image`) while preserving the secondary images (`images` array).
+- **Interactive UI Indicators**: Displays image count badges (`+2`, `+3`) in data tables and interactive carousel thumbnails in product drawers and storefront modals.
+- **Bulk CSV Upload**: Ingests up to 500 rows per batch with per-row validation, reference resolution for categories and units, SKU deduplication, and HTTP 207 Multi-Status reporting.
 
-### 2. Warehouse Management System (WMS)
-- **Facility Master**: Create regional fulfillment centers (`WH-BLR-01`, `WH-MUM-01`) with strict location ordering: `Street/Landmark → State → City → 6-digit PIN code`.
-- **Bin/Rack Locations**: Tracks precise storage locations within aisles and bins (`A-01-01`, `F-01-10`).
-- **Inter-Warehouse Stock Transfers**: Manages inventory balancing between hubs with full status transitions (`pending → in_transit → completed / cancelled`).
-- **Cycle Counts & Stock Adjustments**: Supports physical audit counts, calculating variances and logging double-entry movements (`adjustment_add` / `adjustment_deduct`) to maintain balanced books.
+### 2. Multi-Facility Warehouse Management (WMS)
+- **Rigid Address Hierarchy**: Standardizes facility addresses into:
+  $$\text{Street / Landmark} \longrightarrow \text{State (Dropdown)} \longrightarrow \text{City (Dropdown)} \longrightarrow \text{6-Digit PIN Code ([0-9]{6})}$$
+- **Aisle / Rack / Bin Locations**: Granular bin coordinates (`A-01-01`, `F-02-15`) per product per warehouse.
+- **Inter-Warehouse Transfers**: Coordinates regional inventory rebalancing between fulfillment centers with state transitions (`pending` $\rightarrow$ `in_transit` $\rightarrow$ `completed` / `cancelled`).
+- **Cycle Counts & Adjustments**: Supports physical audit counts, recording variances and dispatching double-entry movements (`adjustment_add` / `adjustment_deduct`) to maintain balanced records.
 
-### 3. Customer Storefront & Online Ordering
-- **Customer Shopping Experience**: Live catalog browsing with category tabs, real-time stock badges, search and price filters, multi-photo indicators, and product detail views.
-- **Cart & Instant Checkout**: Persistent multi-item cart calculating subtotal, GST (18%), and final invoice total.
-- **Payment Flexibility**:
-  - **Online Payment**: Integrated Razorpay modal (UPI, Cards, NetBanking, Wallets) with cryptographically verified HMAC-SHA256 signatures.
-  - **Cash on Delivery (COD)**: Instant order dispatch option with automated receipt generation.
-- **Branded Tax Invoices**: Download official A4 PDF tax invoices with itemized totals, GST breakdowns, company credentials, and payment metadata.
+### 3. Customer E-Commerce Storefront & Instant Checkout
+- **Modern Responsive Storefront**: Accessible at `/customer/catalog`, featuring dynamic search, price range filtering, category tabs, and real-time stock badges (`In Stock`, `Low Stock`, `Out of Stock`).
+- **Persistent Cart Engine**: Multi-item shopping cart backed by local storage and React Context, automatically computing item subtotals, standard GST (18%), and final payable amounts.
+- **Payment Versatility**:
+  - **Online Payment**: Integrated Razorpay modal supporting UPI, Credit/Debit Cards, NetBanking, and Wallets, verified server-side with HMAC-SHA256 signatures.
+  - **Cash on Delivery (COD)**: Instant order dispatch option with automated invoice generation.
+- **Branded GST Tax Invoices**: Streamed on-demand via `pdfkit`, incorporating itemized tables, HSN codes, GST calculations, company credentials, and authorized signatures.
 
-### 4. Customer Returns & RMA with Automated Refunds
-- **7-Day Customer Return Window**: Customers can select delivered orders, choose items to return, select categorized return reasons (`Defective`, `Damaged in Transit`, `Wrong Item`, `Size/Fit Issue`, `Other`), and enter details.
-- **Dual Email Notification Engine**:
-  - 📧 **Customer Confirmation**: Branded email confirming return submission, return reference `#RET-XXXXXX`, items, and tracking link.
-  - 📧 **Admin Alert**: Immediate operational alert dispatched to administrators containing customer info, order number, warehouse facility, return reason, and review CTA.
-- **Automated Razorpay Refund Execution**: When an admin authorizes a return, the system automatically calls the Razorpay Refund API to return the purchase amount to the customer's original payment method.
-- **Warehouse Restock Reconciliation**: When returned items arrive at the facility, managers restock items directly into WMS inventory, restoring stock levels and logging an `adjustment_add` in the immutable Stock Ledger.
+### 4. Customer Returns (RMA) & Automated Gateway Refunds
+- **7-Day Return Window**: Customers can initiate returns for delivered orders within 7 days directly from `/customer/returns`.
+- **Structured Return Reasons**: Standardized categories: `Defective`, `Damaged in Transit`, `Wrong Item Received`, `Size / Fit Issue`, and `Other`.
+- **Dual-Party Automated Notifications**:
+  - 📧 **Customer Confirmation**: Email with return reference `#RET-XXXXXX`, item summary, and return tracking details.
+  - 📧 **Admin Operational Alert**: Dispatched immediately to administrators (`rayapatiravitheja@gmail.com`, `admin@inventorypro.com`) with review links.
+- **Automated Razorpay Refund**: When an administrator approves an online-paid return, the server invokes Razorpay's Refund API to credit the funds back to the customer's original payment method automatically.
+- **Warehouse Restock Reconciliation**: Warehouse managers restock approved goods into specific warehouse bins, automatically incrementing stock levels and appending an `adjustment_add` entry to the Stock Ledger.
 
-### 5. Business Reports & Low-Stock Alerts Engine
-- **Reports Dashboard**:
-  - **Stock Report**: In-stock, low-stock ($\le 10$), and out-of-stock inventory with valuation.
-  - **Sales Report**: Daily, weekly, and monthly revenue analytics with filterable date ranges.
-  - **Purchase Report**: Procurement expenditure, supplier order status, and GRN receipts.
-  - **Top Products**: High-velocity products ranked by quantity sold and revenue generated.
-- **Alerts & Audit Logs Module**:
-  - Displays real-time logs of automated weekly cron scans and manual tests.
-  - Displays KPI summary cards: Total Alerts Sent, Minimum Threshold ($\le 10$), Cron Schedule (Every Monday 9:00 AM IST), and SMTP Channel status.
-  - Filterable audit history showing timestamps, trigger events (`Manual Test`, `Weekly Cron`), recipient email, alerted SKUs, deficit tags, and delivery status with SMTP message IDs.
-  - **Trigger Live Alert**: Header and audit tab button allowing administrators to trigger a live low-stock email scan with modal confirmation.
+### 5. Multi-Tiered Transactional Email Engine (Port 443 Resilient)
 
-### 6. Immutable Double-Entry Stock Ledger
-Every stock mutation is recorded with before/after counts, quantity change, reference numbers, and timestamps:
+> [!IMPORTANT]
+> **The Cloud Port 465/587 Problem**: Cloud platforms like Render, AWS, and DigitalOcean block outbound SMTP ports (25, 465, 587) to prevent spam. Direct SMTP connections on these hosts time out or hang.  
+> **The InventoryPro Solution**: A resilient, 3-tier email failover pipeline prioritizing HTTPS REST APIs over Port 443.
+
+```mermaid
+flowchart LR
+    Trigger[Transactional Event] --> CheckBrevo{BREVO_API_KEY Configured?}
+    CheckBrevo -- Yes --> BrevoAPI[Brevo REST API v3\nPort 443 HTTPS]
+    BrevoAPI -- 201 Created --> Success[Email Delivered Worldwide]
+    BrevoAPI -- Error / Non-200 --> CheckResend
+    CheckBrevo -- No --> CheckResend{RESEND_API_KEY Configured?}
+    CheckResend -- Yes --> ResendAPI[Resend REST API\nPort 443 HTTPS]
+    ResendAPI -- 200 OK --> Success
+    ResendAPI -- 403 Sandbox --> ResendAutoForward[Auto-forward Sandbox Copy\nto Verified Admin Email]
+    CheckResend -- No --> SMTPTransporter[Gmail SMTP Transporter\nPort 465 TLS / 4s Timeout]
+    SMTPTransporter --> Success
+```
+
+1. **Tier 1 — Brevo HTTPS API (`https://api.brevo.com/v3/smtp/email`)**:
+   - Communicates via Port 443 with `api-key`.
+   - Delivers to any domain worldwide without requiring custom DNS domain verification.
+   - Enforces verified sender email (`rayapatiravitheja@gmail.com`).
+2. **Tier 2 — Resend HTTPS API (`https://api.resend.com/emails`)**:
+   - Operates over Port 443 via Bearer Token.
+   - Features **Intelligent Sandbox Auto-Forwarding**: If running in test mode (`onboarding@resend.dev`), Resend rejects external recipients with HTTP 403. InventoryPro's engine catches this and routes a sandbox copy with an explanatory banner to the store owner (`rayapatiravitheja@gmail.com`).
+3. **Tier 3 — Nodemailer Gmail SMTP Fallback**:
+   - Configured with strict 4-second fail-fast timeouts (`connectionTimeout: 4000`, `socketTimeout: 5000`) so requests never hang if cloud firewalls block SMTP ports.
+4. **Dual Admin Alerts**:
+   - All critical operational events (purchase orders, customer returns, low-stock alerts, order confirmations) notify both `rayapatiravitheja@gmail.com` and `admin@inventorypro.com`.
+5. **Clean Cloud Logging**:
+   - Log statements use neutral terms (`notification sent to`) rather than keywords that trigger false-positive red warning flags on Render's dashboard.
+
+### 6. Business Intelligence, Low-Stock Scheduler & Audit Logs
+- **Comprehensive Reports Dashboard (`/reports`)**:
+  - **Stock Report**: In-stock, low-stock ($\le 10$), and out-of-stock inventory with total catalog valuation.
+  - **Sales Report**: Revenue trends, order volumes, and average order values filterable by date.
+  - **Purchase Report**: Procurement expenditures, supplier fulfillments, and receiving status.
+  - **Top Products**: High-velocity items ranked by revenue and units sold.
+- **Low-Stock Cron Singleton (`node-cron`)**:
+  - Executes every Monday at 9:00 AM IST (`0 9 * * 1`).
+  - Scans product inventories across all warehouses, checking against safety thresholds.
+  - Transmits branded low-stock digest emails to administrators.
+- **Interactive Live Audit & Testing**:
+  - Administrators can click **"Trigger Test Alerts"** in `/reports` to trigger a live catalog scan immediately.
+  - **Alerts & Audit Logs Table**: Displays persistent records from the `AlertLog` collection, showing trigger method (`scheduled_cron` / `manual_test`), timestamp, recipient list, alerted SKUs, deficit counts, and gateway message IDs.
+
+### 7. Immutable Double-Entry Stock Ledger
+Every stock mutation across the system creates a permanent, non-deletable record in the `StockLedger` collection:
 - `purchase_receipt`: Inward goods from supplier purchase orders (GRN).
 - `order_dispatch`: Outward customer sales order fulfillment.
-- `transfer_out` / `transfer_in`: Inter-warehouse regional stock movements.
-- `adjustment_add` / `adjustment_deduct`: Physical count reconciliations, product stock edits, and manual audits.
+- `transfer_out` / `transfer_in`: Regional inter-warehouse stock movements.
+- `adjustment_add` / `adjustment_deduct`: Physical count reconciliations, product stock edits, and return restocks.
 - `purchase_return`: Outward return of inventory back to suppliers.
 
 ---
 
 ## 🛠️ Technology Stack
 
-| Layer | Component | Version / Library |
-| :--- | :--- | :--- |
-| **Frontend** | Framework | React 18, Vite 6.x |
-| | Routing | React Router DOM v7 |
-| | UI Components | Ant Design 5.x, Ant Design Icons |
-| | Styling | Tailwind CSS 3.x, Custom CSS |
-| | Charts & Analytics | Recharts, @ant-design/plots |
-| | HTTP Client | Axios with request/response interceptors |
-| | Toast Notifications | React Hot Toast |
-| **Backend** | Runtime | Node.js (ES Modules, `"type": "module"`) |
-| | Framework | Express 4.x |
-| | Database Engine | MongoDB 7.x / MongoDB Atlas |
-| | ODM | Mongoose 8.x |
-| | Authentication | JSON Web Tokens (`jsonwebtoken`), `bcryptjs` |
-| | File Uploads | Multer, Cloudinary SDK v2 |
-| | Payments | Razorpay SDK (`razorpay`) with HMAC-SHA256 verification |
-| | Email Engine | Nodemailer with Gmail SSL/TLS (port 465) |
-| | PDF Generation | PDFKit (streaming A4 documents) |
-| | Scheduler | `node-cron` (Weekly Cron Singleton) |
-| | Barcode / QR | `bwip-js` (Code128, QR Code) |
+| Layer | Technology | Version | Purpose |
+| :--- | :--- | :--- | :--- |
+| **Frontend** | React | `^18.3.1` | Declarative component UI |
+| | Vite | `^6.1.0` | Fast build tooling and HMR |
+| | React Router DOM | `^7.2.0` | Client-side routing and protected routes |
+| | Ant Design | `^5.24.2` | UI component library (tables, modals, forms) |
+| | Tailwind CSS | `^3.4.17` | Utility-first styling |
+| | Recharts & Ant Plots | `^2.15.1` / `^2.3.3` | Analytics charts and visualizations |
+| | Axios | `^1.8.1` | HTTP client with JWT interceptors |
+| | React Hot Toast | `^2.5.2` | Dynamic UI toast notifications |
+| **Backend** | Node.js | `>=18.0.0` | Server runtime (ES Modules, `"type": "module"`) |
+| | Express.js | `^4.21.2` | REST API framework |
+| | MongoDB & Mongoose | `^8.10.1` | Document database and ODM |
+| | JSON Web Tokens | `^9.0.2` | Authentication token signing and verification |
+| | Bcrypt.js | `^3.0.2` | Password hashing (salt rounds: 10) |
+| | Multer | `^1.4.5-lts.1` | Multipart/form-data upload handling |
+| | Cloudinary SDK | `^2.5.1` | Image asset CDN hosting |
+| | Razorpay SDK | `^2.9.8` | Payment orders and automated refunds |
+| | Node-Cron | `^4.2.1` | In-process cron scheduling engine |
+| | PDFKit | `^0.16.0` | Vector-based PDF tax invoice streaming |
+| | Nodemailer | `^6.10.0` | SMTP client with fallback failover |
 
 ---
 
 ## 🗄️ Database Architecture (17 Data Models)
 
-```
-       ┌───────────┐         1:N        ┌──────────────┐
-       │   User    ├───────────────────►│   Category   │
-       └─────┬─────┘                    └──────────────┘
-             │               1:N        ┌──────────────┐
-             ├─────────────────────────►│     Unit     │
-             │                          └──────────────┘
-             │               1:N        ┌──────────────┐
-             ├─────────────────────────►│  Warehouse   │
-             │                          └──────┬───────┘
-             │                                 │
-             │               1:N               ▼ 1:N
-             ├─────────────────────────►┌──────────────┐
-             │                          │WarehouseStock│
-             │                          └──────▲───────┘
-             │               1:N               │ 1:N
-             ├─────────────────────────►┌──────┴───────┐
-             │                          │   Product    │
-             │                          └──────▲───────┘
-             │                                 │ 1:N
-             ▼ 1:N                             │
-       ┌───────────┐         1:N        ┌──────┴───────┐
-       │   Order   ├───────────────────►│ OrderDetail  │
-       └─────┬─────┘                    └──────────────┘
-             │               1:N        ┌──────────────┐
-             ├─────────────────────────►│ReturnRequest │
-             │                          └──────────────┘
-             ▼ 1:N                              ▲
-       ┌───────────┐                            │
-       │StockLedger├────────────────────────────┘
-       └───────────┘
+```mermaid
+erDiagram
+    User ||--o{ Order : places
+    User ||--o{ Purchase : creates
+    User ||--o{ Warehouse : manages
+    User ||--o{ AlertLog : triggers
+    
+    Category ||--o{ Product : classifies
+    Unit ||--o{ Product : measures
+    
+    Warehouse ||--o{ WarehouseStock : stores
+    Product ||--o{ WarehouseStock : stocked_in
+    
+    Order ||--|{ OrderDetail : contains
+    Product ||--o{ OrderDetail : ordered_as
+    
+    Order ||--o{ ReturnRequest : generates
+    ReturnRequest ||--o{ StockLedger : reconciles
+    
+    Supplier ||--o{ Purchase : supplies
+    Purchase ||--|{ PurchaseDetail : specifies
+    Product ||--o{ PurchaseDetail : purchased_as
+    
+    Warehouse ||--o{ StockTransfer : sources
+    Warehouse ||--o{ StockTransfer : destinations
+    
+    Warehouse ||--o{ StockAdjustment : adjusts
+    Product ||--o{ StockAdjustment : item_adjusted
+    
+    Product ||--o{ StockLedger : tracks
+    Warehouse ||--o{ StockLedger : records_at
 ```
 
-1. **`User`**: Core identity model supporting roles (`admin`, `manager`, `customer`), password hashing, assigned warehouses, shipping addresses, OTP issuance, and token refresh.
-2. **`Product`**: Product details, 8-character SKU, multi-image gallery array (`images`), primary cover (`product_image`), pricing, stock, min threshold, bin location, and category/unit references.
-3. **`Warehouse`**: Facility metadata, warehouse code, capacity, default flag, and address (`street`, `state`, `city`, `pincode`).
-4. **`WarehouseStock`**: Compound relationship mapping stock quantity and bin location per product per warehouse.
-5. **`StockLedger`**: Double-entry ledger recording `quantity_before`, `quantity_change`, `quantity_after`, `transaction_type`, and `reference_no`.
-6. **`Order`**: Sales orders, invoice numbers (`INV-XXXXXX`), order status, customer details, warehouse reference, totals, and Razorpay payment details.
-7. **`OrderDetail`**: Line items for orders, recording product ID, quantity, unit cost, and line total.
-8. **`ReturnRequest`**: RMA management storing `return_no` (`RET-XXXXXX`), order reference, returned items, reason, admin notes, status (`pending`, `approved`, `rejected`, `received`), and Razorpay refund details.
-9. **`AlertLog`**: Persistent record of every alert transmission (`manual_test`, `scheduled_cron`, `order_event`), recipient email, alerted SKUs, delivery status, and SMTP message IDs.
-10. **`Category`**: Product classification with user-level isolation and admin global visibility.
-11. **`Unit`**: Measurement units (Piece, Box, Kilogram, Set, Meter, Liter).
-12. **`Supplier`**: Vendor profiles, contact details, and bank account information.
-13. **`Customer`**: External customer business profiles.
-14. **`Purchase`**: Procurement orders (`PUR-XXXXXX`), supplier reference, status machine, and totals.
-15. **`PurchaseDetail`**: Line items for purchases, recording unit cost, received quantities, and return histories.
-16. **`StockTransfer`**: Inter-warehouse transfer records with transit tracking and approval signatures.
-17. **`StockAdjustment`**: Physical inventory reconciliation records storing counted vs system variances.
+### Model Directory & Responsibilities
+
+1. **`User`** (`user.model.js`): User accounts, bcrypt password hashes, roles (`admin`, `manager`, `customer`), assigned warehouses, verification OTPs, and refresh tokens.
+2. **`Product`** (`product.model.js`): Product metadata, 8-character SKU, 8-image gallery array (`images`), primary cover (`product_image`), pricing, safety threshold, bin location, category reference, and unit reference.
+3. **`Warehouse`** (`warehouse.model.js`): Facility name, warehouse code (`WH-BLR-01`), status, address (`street`, `state`, `city`, `pincode`), and capacity.
+4. **`WarehouseStock`** (`warehouse-stock.model.js`): Compound mapping linking product, warehouse facility, quantity on hand, and bin/rack coordinate.
+5. **`StockLedger`** (`stock-ledger.model.js`): Double-entry ledger recording `quantity_before`, `quantity_change`, `quantity_after`, `transaction_type`, and `reference_no`.
+6. **`Order`** (`order.model.js`): Customer orders, invoice number (`INV-XXXXXX`), customer profile, shipping address, status (`pending`, `processing`, `shipped`, `delivered`, `cancelled`), payment method (`razorpay`, `cod`), and payment details.
+7. **`OrderDetail`** (`order-detail.model.js`): Line items for orders, recording product ID, quantity, unit cost, and line total.
+8. **`ReturnRequest`** (`return-request.model.js`): Customer RMA records, return number (`RET-XXXXXX`), order reference, returned items, reason, admin notes, status (`pending`, `approved`, `rejected`, `received`), and Razorpay refund ID.
+9. **`AlertLog`** (`alert-log.model.js`): Audit history of low-stock alerts, trigger event, recipient list, alerted product SKUs, deficit counts, and email message IDs.
+10. **`Category`** (`category.model.js`): Product classifications with admin-managed global visibility.
+11. **`Unit`** (`unit.model.js`): Units of measurement (Piece, Box, Kilogram, Set, Meter, Liter).
+12. **`Supplier`** (`supplier.model.js`): Vendor profiles, contact information, tax identification, and payment terms.
+13. **`Customer`** (`customer.model.js`): B2B customer records and shipping profiles.
+14. **`Purchase`** (`purchase.model.js`): Procurement orders (`PUR-XXXXXX`), supplier references, receiving status, and payment tracking.
+15. **`PurchaseDetail`** (`purchase-detail.model.js`): Inbound purchase items, unit purchase costs, quantities ordered, and quantities received.
+16. **`StockTransfer`** (`stock-transfer.model.js`): Inter-warehouse stock transit documents with transfer numbers (`TRN-XXXXXX`), dispatch timestamps, and receiving signatures.
+17. **`StockAdjustment`** (`stock-adjustment.model.js`): Cycle count audit adjustments recording discrepancies between system stock and physical counts.
 
 ---
 
-## 🔌 REST API Reference
+## 🔌 Comprehensive REST API Reference
 
-Base URL: `http://localhost:3001/api/v1`
+Base API Path: `/api/v1`
 
-All responses follow a consistent envelope structure:
+### Standard Response Envelope
 ```json
 {
   "statusCode": 200,
@@ -280,52 +352,152 @@ All responses follow a consistent envelope structure:
 }
 ```
 
-### Core API Groups
+### 1. Authentication & User Management (`/api/v1/users`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `POST` | `/users/register` | Public | Register new user account with role selection |
+| `POST` | `/users/login` | Public | Authenticate user, receive JWT access & refresh tokens |
+| `POST` | `/users/logout` | Private | Revoke active refresh token and clear cookies |
+| `POST` | `/users/refresh-token` | Public | Refresh expired access token using refresh token |
+| `GET` | `/users/current-user` | Private | Retrieve authenticated user profile |
+| `PATCH` | `/users/update-account` | Private | Update account profile details |
+| `PATCH` | `/users/avatar` | Private | Upload and update user avatar |
+| `POST` | `/users/send-verify-otp` | Private | Send email verification OTP |
+| `POST` | `/users/verify-email` | Private | Verify account email address |
+| `POST` | `/users/send-reset-otp` | Public | Send password reset OTP |
+| `POST` | `/users/reset-password` | Public | Reset password using verified OTP |
+| `POST` | `/users/send-change-password-otp` | Private | Validate password & send change-password OTP |
+| `POST` | `/users/verify-change-password-otp`| Private | Verify change-password OTP |
+| `POST` | `/users/change-password` | Private | Commit new password |
 
-| Group | Method | Endpoint | Access | Description |
-| :--- | :---: | :--- | :---: | :--- |
-| **Auth** | `POST` | `/users/register` | Public | Register new user account with role selection |
-| | `POST` | `/users/login` | Public | Authenticate user, set HTTP-only JWT cookies |
-| | `POST` | `/users/logout` | Private | Revoke refresh token and clear cookies |
-| | `POST` | `/users/send-change-password-otp` | Private | Validates current password, sends 6-digit email OTP |
-| | `POST` | `/users/verify-change-password-otp` | Private | Validates 6-digit email OTP |
-| | `POST` | `/users/change-password` | Private | Commits new password with bcrypt hashing |
-| | `GET` | `/users/current-user` | Private | Retrieve active authenticated session profile |
-| **Products** | `GET` | `/products` | Private | List products with pagination, search, and category filters |
-| | `POST` | `/products` | Admin | Create product with up to 8 gallery images |
-| | `PATCH` | `/products/:id` | Admin | Update product details, stock adjustments, and gallery images |
-| | `DELETE` | `/products/:id` | Admin | Soft/hard delete product from catalog |
-| | `POST` | `/products/bulk-upload` | Admin | Upload CSV containing up to 500 product records |
-| **Warehouses** | `GET` | `/warehouses` | Private | List all regional warehouse facilities |
-| | `POST` | `/warehouses` | Admin | Create warehouse with state/city dropdowns and 6-digit PIN |
-| | `PUT` | `/warehouses/:id` | Admin | Update warehouse facility address and details |
-| | `GET` | `/warehouses/stock` | Private | Query product inventory per facility |
-| | `POST` | `/transfers` | Manager+ | Initiate inter-warehouse stock transfer |
-| | `POST` | `/adjustments` | Manager+ | Submit cycle count physical stock adjustment |
-| **Customer Storefront** | `GET` | `/products` | Customer | Browse catalog with live regional availability |
-| | `POST` | `/payments/create-order` | Customer | Create Razorpay payment order |
-| | `POST` | `/payments/verify` | Customer | Verify HMAC-SHA256 signature and complete order |
-| | `GET` | `/orders/my-orders` | Customer | View customer order history and tracking |
-| | `GET` | `/orders/:id/invoice` | Customer | Stream branded PDF tax invoice |
-| **Returns & RMA** | `POST` | `/returns/request` | Customer | Submit return request (**triggers emails to customer & admin**) |
-| | `GET` | `/returns/my-returns` | Customer | View customer return requests and statuses |
-| | `GET` | `/returns` | Manager+ | Admin/Manager review all incoming return requests |
-| | `PATCH` | `/returns/:id/status` | Manager+ | Approve/reject return (triggers automated Razorpay refund) |
-| | `PATCH` | `/returns/:id/process` | Manager+ | Receive returned goods and restock into warehouse |
-| **Reports & Scheduler** | `GET` | `/reports/stock` | Private | Fetch real-time stock valuation and deficit report |
-| | `GET` | `/reports/sales` | Private | Fetch sales revenue and order volume analytics |
-| | `GET` | `/scheduler/logs` | Admin | Fetch audit history of alert transmissions |
-| | `POST` | `/scheduler/trigger-alerts`| Admin | Manually trigger low-stock alert scan and email dispatch |
+### 2. Product Catalog (`/api/v1/products`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `GET` | `/products` | Private | List products with pagination, search, category, and warehouse filters |
+| `POST` | `/products` | Admin | Create product with up to 8 images (Multer + Cloudinary) |
+| `GET` | `/products/:id` | Private | Get detailed product specifications and image gallery |
+| `PATCH` | `/products/:id` | Admin | Update product information, pricing, stock, and gallery |
+| `DELETE` | `/products/:id` | Admin | Delete product from catalog |
+| `POST` | `/products/bulk-upload` | Admin | Ingest up to 500 products via CSV with validation |
+
+### 3. Warehouses, Transfers & Adjustments
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `GET` | `/warehouses` | Private | List all regional warehouse facilities |
+| `POST` | `/warehouses` | Admin | Create warehouse with state/city dropdowns & 6-digit PIN |
+| `PUT` | `/warehouses/:id` | Admin | Update warehouse facility details |
+| `GET` | `/warehouses/stock` | Private | Query stock quantities by warehouse |
+| `POST` | `/transfers` | Manager+ | Initiate inter-warehouse stock transfer |
+| `PATCH` | `/transfers/:id/status` | Manager+ | Update transfer state (`in_transit`, `completed`) |
+| `POST` | `/adjustments` | Manager+ | Record physical cycle count stock adjustment |
+| `GET` | `/stock-ledger` | Manager+ | Query double-entry stock ledger transactions |
+
+### 4. Orders & Customer Checkout (`/api/v1/orders`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `POST` | `/orders/checkout` | Customer | Customer self-service checkout (Razorpay or COD) |
+| `POST` | `/orders/customer-checkout`| Customer | Alias endpoint for storefront checkout |
+| `POST` | `/orders` | Manager+ | Internal order creation by staff |
+| `GET` | `/orders` | Private | List orders (scoped: Customer sees own, Admin sees all) |
+| `GET` | `/orders/:id` | Private | Get complete order details and line items |
+| `PATCH` | `/orders/:id/status` | Manager+ | Update order status (`processing`, `shipped`, `delivered`, `cancelled`) |
+| `GET` | `/orders/:id/invoice` | Private | Stream branded A4 PDF tax invoice |
+
+### 5. Payments & Razorpay (`/api/v1/payments`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `GET` | `/payments/config` | Private | Retrieve public Razorpay Key ID |
+| `POST` | `/payments/create-order` | Customer | Create Razorpay order with currency & amount |
+| `POST` | `/payments/verify` | Customer | Verify HMAC-SHA256 signature and complete order |
+| `POST` | `/payments/webhook` | Public | Handle asynchronous Razorpay webhook events |
+
+### 6. Customer Returns & RMA (`/api/v1/returns`)
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `POST` | `/returns/request` | Customer | Submit return request (triggers dual-party emails) |
+| `GET` | `/returns/my-returns` | Customer | View customer's own return requests |
+| `GET` | `/returns` | Manager+ | List all return requests for review |
+| `PATCH` | `/returns/:id/status` | Manager+ | Approve/reject return (triggers automated Razorpay refund) |
+| `PATCH` | `/returns/:id/process` | Manager+ | Receive goods at facility and restock inventory |
+
+### 7. Reports, Scheduler & Diagnostics
+| Method | Endpoint | Access | Description |
+| :---: | :--- | :---: | :--- |
+| `GET` | `/reports/dashboard` | Manager+ | Key performance indicators and metrics |
+| `GET` | `/reports/stock` | Manager+ | Real-time valuation and deficit report |
+| `GET` | `/reports/sales` | Manager+ | Revenue and order volume analytics |
+| `GET` | `/reports/purchases` | Manager+ | Procurement expenditures and vendor stats |
+| `GET` | `/reports/top-products` | Manager+ | High-velocity product leaderboard |
+| `GET` | `/scheduler/status` | Admin | Get low-stock scheduler status |
+| `POST` | `/scheduler/trigger-alerts`| Admin | Manually trigger low-stock alert scan and emails |
+| `GET` | `/scheduler/logs` | Manager+ | Fetch audit history of alert transmissions |
+| `PUT` | `/scheduler/threshold` | Admin | Update minimum safety threshold |
+| `GET` | `/test` | Public | System status and Resend key verification |
+| `GET` | `/test/email?to=...` | Public | Test direct email transmission to any address |
 
 ---
 
-## 🚀 Installation & Getting Started
+## ⚙️ Environment Variables Guide
+
+### Backend Configuration (`Backend/.env`)
+
+```env
+# Server Runtime
+PORT=3001
+NODE_ENV=production
+FRONTEND_URL=https://inventory-pro-azure-two.vercel.app
+CORS_ORIGIN=https://inventory-pro-azure-two.vercel.app
+TIMEZONE=Asia/Kolkata
+
+# Database (MongoDB Atlas)
+MONGODB_URI=mongodb+srv://<user>:<password>@inventorypro-admin.7zekigd.mongodb.net/IMS?retryWrites=true&w=majority
+
+# JWT Authentication
+ACCESS_TOKEN_SECRET=your_super_secret_jwt_access_token_key_here_minimum_32_chars
+ACCESS_TOKEN_EXPIRY=1d
+REFRESH_TOKEN_SECRET=your_super_secret_jwt_refresh_token_key_here_minimum_32_chars
+REFRESH_TOKEN_EXPIRY=10d
+
+# Cloudinary Storage
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+# Email API Tier 1: Brevo (Recommended for universal delivery over Port 443)
+BREVO_API_KEY=xkeysib-your_brevo_api_key_here
+BREVO_SENDER_EMAIL=rayapatiravitheja@gmail.com
+
+# Email API Tier 2: Resend (Port 443 with Sandbox Auto-Forwarding)
+RESEND_API_KEY=re_your_resend_api_key_here
+RESEND_FROM="InventoryPro <onboarding@resend.dev>"
+
+# Email Tier 3: Nodemailer Gmail SMTP Fallback
+SENDER_EMAIL=your_email@gmail.com
+SENDER_PASSWORD="your_gmail_16_digit_app_password"
+ADMIN_EMAIL=rayapatiravitheja@gmail.com
+
+# Razorpay Payment Gateway
+RAZORPAY_KEY_ID=rzp_live_or_test_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_secret_key
+RAZORPAY_WEBHOOK_SECRET=your_razorpay_webhook_secret
+```
+
+### Frontend Configuration (`Frontend/.env`)
+
+```env
+# Backend API Base URL
+VITE_BACKEND_URL=https://inventorypro-api-l20i.onrender.com/api/v1
+VITE_API_URL=https://inventorypro-api-l20i.onrender.com/api/v1
+```
+
+---
+
+## 🚀 Local Installation & Development
 
 ### Prerequisites
 - **Node.js**: `v18.0.0` or higher
 - **MongoDB**: Local MongoDB instance (`127.0.0.1:27017`) or MongoDB Atlas URI
-- **Google Chrome**: For headless Puppeteer automation and test verification
-- **Gmail Account**: With an App Password generated for SMTP email dispatch
+- **Git**
 
 ### 1. Clone the Repository
 ```bash
@@ -337,86 +509,75 @@ cd Inventory-pro
 ```bash
 cd Backend
 npm install
-```
 
-Create `.env` file in the `Backend/` directory:
-```env
-PORT=3001
-MONGODB_URI=mongodb://127.0.0.1:27017/IMS
-NODE_ENV=development
+# Copy environment template and configure secrets
+cp .env.example .env
 
-ACCESS_TOKEN_SECRET=your_super_secret_access_jwt_key_here_minimum_32_characters
-ACCESS_TOKEN_EXPIRY=1d
-REFRESH_TOKEN_SECRET=your_super_secret_refresh_jwt_key_here_minimum_32_characters
-REFRESH_TOKEN_EXPIRY=10d
+# Optional: Seed default demo users (Admin, Manager, Customer)
+npm run seed
 
-# Cloudinary Storage (optional in local dev with disk storage)
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-
-# Gmail SMTP Configuration
-EMAIL_SERVICE=gmail
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_gmail_16_digit_app_password
-SENDER_EMAIL=your_email@gmail.com
-ADMIN_EMAIL=rayapatiravitheja@gmail.com
-
-# Razorpay Payment Gateway (Test or Live Keys)
-RAZORPAY_KEY_ID=rzp_test_your_key_id
-RAZORPAY_KEY_SECRET=your_razorpay_secret
-
-FRONTEND_URL=http://localhost:5173
-TIMEZONE=Asia/Kolkata
-```
-
-Start the Backend Development Server:
-```bash
+# Start development server with nodemon
 npm run dev
-# Server will listen on http://localhost:3001
+# Backend starts on http://localhost:3001
 ```
 
 ### 3. Frontend Setup
 ```bash
 cd ../Frontend
 npm install
-```
 
-Start the Frontend Vite Development Server:
-```bash
+# Start Vite development server
 npm run dev
-# Application will launch on http://localhost:5173
+# Frontend starts on http://localhost:5173
 ```
 
 ---
 
-## 🔑 Default System Credentials
+## 🌐 Production Deployment Guide
 
-| Role | Email Address | Password | Intended Use |
-| :--- | :--- | :--- | :--- |
-| **Administrator** | `rayapatiravitheja@gmail.com` | `Theja@1822` | Master oversight, reports, low-stock alerts, product setup |
-| **Warehouse Manager** | `manager@inventorypro.com` | `Manager@123` | Inbound receiving, warehouse stock management, transfers |
-| **Customer** | `99230040998@klu.ac.in` | `Customer@123` | Storefront catalog, cart, Razorpay checkout, return requests |
+### Deploying Backend on Render
+1. Create a new **Web Service** on [Render](https://render.com/).
+2. Connect your GitHub repository: `https://github.com/rayapatiravitheja/Inventory-pro`.
+3. Set the configuration:
+   - **Root Directory**: `Backend`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
+4. In the **Environment Variables** tab, add all variables from the [Backend Configuration Guide](#backend-configuration-backendenv).
+5. Deploy the service.
+
+### Deploying Frontend on Vercel
+1. Import the repository on [Vercel](https://vercel.com/).
+2. Set the configuration:
+   - **Root Directory**: `Frontend`
+   - **Framework Preset**: `Vite`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+3. In **Environment Variables**, set:
+   - `VITE_BACKEND_URL`: `https://your-backend-service.onrender.com/api/v1`
+4. Deploy the project.
 
 ---
 
-## 🔒 Security & Engineering Highlights
+## 🔒 Security & Production Hardening
 
-- **Bcrypt Password Security**: All user passwords are encrypted using `bcryptjs` with salt round 10 before saving to MongoDB.
-- **Double-Entry Reconciliation**: Every stock change is mirrored by a permanent `StockLedger` event (`adjustment_add`, `adjustment_deduct`, `order_dispatch`, `purchase_receipt`), ensuring full visibility into inventory movements.
-- **Clean Dev/Prod Sanitization**: Verification OTPs are transmitted strictly via encrypted email and are never leaked to client responses or rendered in the DOM.
-- **Automated Razorpay Refunds**: Return authorizations trigger instant online refund requests with transaction tracking IDs saved to the database.
-- **Robust Error Handling**: Structured `ApiError` instances ensure error responses have predictable HTTP status codes and actionable messages.
+- **Bcrypt Password Security**: Passwords salted and hashed with `bcryptjs` (cost factor 10) before persistence.
+- **Strict Role-Based Middleware**: Every route is guarded by both `verifyJWT` and `requireRole(...)`, preventing horizontal or vertical privilege escalation.
+- **Atomic MongoDB Updates**: Inventory deductions use atomic `$gte` checks and Mongoose sessions to prevent race conditions during concurrent orders.
+- **Cryptographic Payment Validation**: Razorpay payments are validated using HMAC-SHA256 signature hashes before orders are confirmed.
+- **Fail-Safe Email Dispatch**: Outbound email calls run asynchronously with try/catch wrappers so email provider interruptions never block user transactions.
+- **CORS Allowlist**: Express CORS policy enforces strict origin checking while allowing non-browser diagnostic requests.
+- **Input Sanitization**: File uploads restricted by MIME type (`image/jpeg`, `image/png`, `image/webp`) and capped at 5MB per image.
 
 ---
 
-## 📄 License & Author
+## 📄 Author & License
 
-Distributed under the **MIT License**.
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
 - **Author**: Ravi Theja Rayapati
-- **Repository**: [GitHub — InventoryPro](https://github.com/rayapatiravitheja/Inventory-pro)
-- **Contact**: `rayapatiravitheja@gmail.com`
+- **GitHub**: [@rayapatiravitheja](https://github.com/rayapatiravitheja)
+- **Email**: [rayapatiravitheja@gmail.com](mailto:rayapatiravitheja@gmail.com)
+- **Repository**: [https://github.com/rayapatiravitheja/Inventory-pro](https://github.com/rayapatiravitheja/Inventory-pro)
 
 ---
 
