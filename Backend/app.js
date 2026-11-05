@@ -148,6 +148,24 @@ app.use("/api/v1/payments", paymentRouter);
     API : http://localhost:3001/api/v1/reports/low-stock-alerts - GET
  */
 
+// Root and healthcheck endpoints
+app.get("/", (req, res) => {
+    res.json({
+        message: "InventoryPro API is running smoothly!",
+        status: "healthy",
+        timestamp: new Date().toISOString(),
+        env: process.env.NODE_ENV || "development",
+    });
+});
+
+app.get("/api/v1/test", (req, res) => {
+    res.json({
+        message: "API routes are working!",
+        endpoint: "/api/v1/test",
+        timestamp: new Date().toISOString(),
+    });
+});
+
 // 404 Not Found Handler for undefined routes
 app.use((req, res, next) => {
     next(new ApiError(404, `Cannot ${req.method} ${req.originalUrl} - Route not found on this server`));
