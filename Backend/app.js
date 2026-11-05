@@ -161,12 +161,13 @@ app.get("/", (req, res) => {
 import transporter from "./utils/nodemailer.js";
 
 app.get("/api/v1/test", (req, res) => {
+    const key = (process.env.RESEND_API_KEY || process.env.Inventorypro || "").trim();
     res.json({
         message: "API routes are working!",
         endpoint: "/api/v1/test",
         timestamp: new Date().toISOString(),
-        hasResendKey: !!process.env.RESEND_API_KEY,
-        resendKeyPrefix: process.env.RESEND_API_KEY ? process.env.RESEND_API_KEY.slice(0, 6) + "..." : "missing",
+        hasResendKey: !!key,
+        resendKeyPrefix: key ? key.slice(0, 6) + "..." : "missing",
         senderEmail: process.env.SENDER_EMAIL || "missing",
     });
 });

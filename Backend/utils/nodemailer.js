@@ -20,8 +20,15 @@ const smtpTransporter = nodemailer.createTransport({
 // Universal transporter supporting HTTPS APIs (Resend/Brevo) & SMTP fallback
 const transporter = {
     sendMail: async (mailOptions) => {
+        const resendApiKey = (
+            process.env.RESEND_API_KEY ||
+            process.env.Inventorypro ||
+            process.env.RESEND_KEY ||
+            ""
+        ).trim();
+
         // 1. If RESEND_API_KEY is configured, send via HTTPS (Port 443 - works everywhere)
-        if (process.env.RESEND_API_KEY) {
+        if (resendApiKey) {
             const toAddresses = Array.isArray(mailOptions.to)
                 ? mailOptions.to
                 : [mailOptions.to];
@@ -39,7 +46,7 @@ const transporter = {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${process.env.RESEND_API_KEY.trim()}`,
+                    Authorization: `Bearer ${resendApiKey}`,
                 },
                 body: JSON.stringify(payload),
             });
