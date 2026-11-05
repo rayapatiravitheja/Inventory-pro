@@ -37,10 +37,18 @@ const Reports = () => {
                 const data = response.data.data;
                 const { sent, failed, noLowStock, total, details } = data;
                 if (sent > 0) {
-                    const recipient = details?.[0]?.email || "Admin";
-                    const count = details?.[0]?.count || 0;
+                    const successfulRecipients = (details || [])
+                        .filter((d) => d.sent)
+                        .map((d) => d.email);
+                    const recipientText =
+                        successfulRecipients.length > 0
+                            ? successfulRecipients.join(", ")
+                            : details?.[0]?.email || "Admin";
+                    const totalNotified = (details || [])
+                        .filter((d) => d.sent)
+                        .reduce((sum, d) => sum + (d.count || 0), 0);
                     toast.success(
-                        `📧 Alert delivered successfully to ${recipient}! (${count} items notified)`
+                        `📧 Alert delivered successfully to ${recipientText}! (${totalNotified} items notified)`
                     );
                 } else if (noLowStock > 0) {
                     toast(

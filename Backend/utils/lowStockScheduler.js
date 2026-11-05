@@ -1,5 +1,6 @@
 import cron from "node-cron";
 import { Product } from "../models/product.model.js";
+import { Category } from "../models/category.model.js";
 import { User } from "../models/user.model.js";
 import { AlertLog } from "../models/alert-log.model.js";
 import transporter from "./nodemailer.js";
@@ -13,14 +14,20 @@ class LowStockScheduler {
     }
 
     // Method to send low stock alerts for a specific user
-    async sendUserLowStockAlert(userId, userEmail, username, isTest = false, triggeredBy = null) {
+    async sendUserLowStockAlert(userId, userEmail, username, isTest = false, triggeredBy = null, userRole = "admin") {
         try {
-            let lowStockProducts = await Product.find({
-                created_by: userId,
+            const queryFilter = {
                 $expr: {
                     $lt: ["$stock", { $ifNull: ["$min_threshold", this.threshold] }],
                 },
-            })
+            };
+
+            // If manager and not admin, scope to manager's products; Admins monitor the entire inventory
+            if (userRole === "manager" && userId) {
+                queryFilter.created_by = userId;
+            }
+
+            let lowStockProducts = await Product.find(queryFilter)
                 .select(
                     "product_name product_code stock min_threshold buying_price selling_price category_id"
                 )
@@ -31,7 +38,8 @@ class LowStockScheduler {
             // construct sample low stock products so the test email is dispatched!
             let isSample = false;
             if (lowStockProducts.length === 0 && isTest) {
-                const sampleProds = await Product.find({ created_by: userId })
+                const sampleFilter = userRole === "manager" && userId ? { created_by: userId } : {};
+                const sampleProds = await Product.find(sampleFilter)
                     .select("product_name product_code stock min_threshold buying_price selling_price category_id")
                     .populate("category_id", "category_name")
                     .limit(3);
@@ -62,7 +70,7 @@ class LowStockScheduler {
                     product_count: 0,
                     status: "no_low_stock",
                 });
-                return { sent: false, reason: "no_low_stock", count: 0 };
+                return { sent: false, reason: "no_low_stock", count: 0, email: userEmail, username };
             }
 
             const template = getLowStockAlertEmailTemplate({
@@ -76,7 +84,7 @@ class LowStockScheduler {
                 : template.subject;
 
             const mailOptions = {
-                from: `"InventoryPro Alert" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER}>`,
+                from: `"InventoryPro Alert" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || "onboarding@resend.dev"}>`,
                 to: userEmail,
                 ...template,
                 subject,
@@ -84,7 +92,7 @@ class LowStockScheduler {
 
             const mailRes = await transporter.sendMail(mailOptions);
             console.log(
-                `Low stock alert sent to ${username} (${userEmail}) - ${lowStockProducts.length} products (MessageId: ${mailRes?.messageId})`
+                `Low stock notification sent to ${username} (${userEmail}) - ${lowStockProducts.length} products (MessageId: ${mailRes?.messageId})`
             );
 
             // Log to database
@@ -119,7 +127,7 @@ class LowStockScheduler {
             };
         } catch (error) {
             console.error(
-                `Error sending low stock alert to ${username}:`,
+                `Error sending low stock notification to ${username}:`,
                 error
             );
 
@@ -155,6 +163,30 @@ class LowStockScheduler {
                 role: { $in: ["admin", "manager"] },
             }).select("_id username email role");
 
+            // Guarantee owner email rayapatiravitheja@gmail.com is always included
+            const ownerEmail = (process.env.ADMIN_EMAIL || "rayapatiravitheja@gmail.com").trim().toLowerCase();
+            const hasOwner = users.some(u => u.email?.toLowerCase() === ownerEmail);
+            if (!hasOwner) {
+                const ownerUser = await User.findOne({ email: ownerEmail }).select("_id username email role");
+                if (ownerUser) {
+                    users.unshift(ownerUser);
+                } else {
+                    users.unshift({
+                        _id: null,
+                        username: "Ravi Theja (Owner Admin)",
+                        email: ownerEmail,
+                        role: "admin",
+                    });
+                }
+            }
+
+            // Always prioritize rayapatiravitheja@gmail.com at the top
+            users.sort((a, b) => {
+                if (a.email?.toLowerCase() === ownerEmail) return -1;
+                if (b.email?.toLowerCase() === ownerEmail) return 1;
+                return 0;
+            });
+
             if (users.length === 0) {
                 console.log("❌ No admin/manager users with email addresses found");
                 return { success: false, message: "No users with email found" };
@@ -168,32 +200,38 @@ class LowStockScheduler {
                 details: [],
             };
 
-            // Process each user
+            // Process each user with isolated error handling
             for (const user of users) {
-                const result = await this.sendUserLowStockAlert(
-                    user._id,
-                    user.email,
-                    user.username,
-                    isTest,
-                    triggeredBy
-                );
+                try {
+                    const result = await this.sendUserLowStockAlert(
+                        user._id,
+                        user.email,
+                        user.username,
+                        isTest,
+                        triggeredBy,
+                        user.role
+                    );
 
-                results.details.push({
-                    userId: user._id,
-                    username: user.username,
-                    email: user.email,
-                    ...result,
-                });
+                    results.details.push({
+                        userId: user._id,
+                        username: user.username,
+                        email: user.email,
+                        ...result,
+                    });
 
-                if (result.sent) {
-                    results.sent++;
-                } else if (result.reason === "no_low_stock") {
-                    results.noLowStock++;
-                } else {
+                    if (result.sent) {
+                        results.sent++;
+                    } else if (result.reason === "no_low_stock") {
+                        results.noLowStock++;
+                    } else {
+                        results.failed++;
+                    }
+                } catch (userErr) {
+                    console.warn(`Failed alert dispatch for ${user.email}:`, userErr.message);
                     results.failed++;
                 }
 
-                await new Promise((resolve) => setTimeout(resolve, 800));
+                await new Promise((resolve) => setTimeout(resolve, 600));
             }
 
             console.log(`✅ Low stock alert process completed:
