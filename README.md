@@ -17,6 +17,21 @@
 
 ---
 
+## 🎓 University Final Review Deliverables (November 2026)
+
+All mandatory deliverables requested for the **MERN Stack Final Review** are submitted directly in this repository:
+
+| Deliverable # | Required Item | Repository Link & Description |
+| :---: | :--- | :--- |
+| **1** | **Complete Project Source Code** | `Frontend/` (React 18 + Vite) & `Backend/` (Express + Mongoose ESM). Verified clean build, zero errors. |
+| **2** | **Project PPT & Formal Documentation** | 📊 [Interactive Presentation Slide Deck](docs/presentation.html) • [Presentation Notes (MD)](docs/PROJECT_PRESENTATION.md)<br>📘 [Formal Project Documentation Report (PDF Ready)](docs/PROJECT_REPORT.html) • [Report (MD)](docs/PROJECT_REPORT.md) |
+| **3** | **Live Deployment Links** | 🌐 [Live Storefront Web App](https://inventory-pro-azure-two.vercel.app/) • ⚡ [Live REST API](https://inventorypro-api-l20i.onrender.com) • 🩺 [Healthcheck](https://inventorypro-api-l20i.onrender.com/) |
+| **4** | **README.md File & Setup Instructions** | [Full System Overview & Setup Guide](#-installation--getting-started) with architecture diagrams & credentials. |
+| **5** | **Database Design & API Documentation** | 🗄️ [Comprehensive Database Design (17 Models)](docs/DATABASE_DESIGN.md)<br>🔌 [Complete REST API Specification (50+ Endpoints)](docs/API_DOCUMENTATION.md) |
+| **6** | **Application Screenshots Gallery** | 📸 [High-Resolution Application Screenshots Gallery](#-application-screenshots-gallery) (11 1080p views in `screenshots/`). |
+
+---
+
 ## 📖 Executive Summary
 
 **InventoryPro** is an enterprise-grade, production-tested **Inventory Management System (IMS), Warehouse Management System (WMS), and Customer E-Commerce Storefront** engineered on the MERN stack (MongoDB Atlas, Express.js, React 18, Node.js).
@@ -27,6 +42,7 @@ Designed to manage high-velocity, modern supply-chain lifecycles, InventoryPro u
 
 ## 📑 Table of Contents
 
+- [🎓 University Final Review Deliverables (November 2026)](#-university-final-review-deliverables-november-2026)
 - [Executive Summary](#-executive-summary)
 - [System Architecture](#-system-architecture)
 - [System Personas & Role-Based Access Control (RBAC)](#-system-personas--role-based-access-control-rbac)
@@ -45,6 +61,7 @@ Designed to manage high-velocity, modern supply-chain lifecycles, InventoryPro u
 - [Environment Variables Guide](#-environment-variables-guide)
 - [Local Installation & Development](#-local-installation--development)
 - [Production Deployment Guide](#-production-deployment-guide)
+- [📸 Application Screenshots Gallery](#-application-screenshots-gallery)
 - [Security & Production Hardening](#-security--production-hardening)
 - [Author & License](#-author--license)
 
@@ -555,6 +572,41 @@ npm run dev
 3. In **Environment Variables**, set:
    - `VITE_BACKEND_URL`: `https://your-backend-service.onrender.com/api/v1`
 4. Deploy the project.
+
+---
+
+## 📸 Application Screenshots Gallery
+
+All views were captured in 1080p full HD from the live production deployment:
+
+### 1. Public Storefront & Legal Policies
+| Landing Page Hero & Ecosystem | Public Legal & RBI Compliance Policies |
+| :---: | :---: |
+| ![Landing Page](screenshots/01_landing_page.png) | ![Policies & Terms](screenshots/02_legal_policies.png) |
+
+### 2. Customer Shopping & E-Commerce Workflow
+| Customer Storefront & Live Stock Catalog | Customer Orders & Instant Tax Invoices |
+| :---: | :---: |
+| ![Storefront Catalog](screenshots/03_customer_storefront.png) | ![Customer Orders](screenshots/04_customer_orders.png) |
+
+### 3. Customer Returns (RMA) & Administrative Operations
+| Customer 7-Day Return Request (RMA) | Admin Executive Analytics Dashboard |
+| :---: | :---: |
+| ![Customer Returns RMA](screenshots/05_customer_returns_rma.png) | ![Executive Dashboard](screenshots/06_admin_dashboard.png) |
+
+### 4. Warehouse Logistics & Master Catalog Management
+| Multi-Facility Warehouses (WMS) | Product Master & 8-Image Cloudinary Gallery |
+| :---: | :---: |
+| ![Warehouse Management](screenshots/07_warehouse_management.png) | ![Product Inventory](screenshots/08_product_inventory.png) |
+
+### 5. Automated Schedulers, Audit Trails & User Roles
+| Low-Stock Alerts Engine & Audit Logs | Returns Management & Automated Refunds |
+| :---: | :---: |
+| ![Reports & Audit Logs](screenshots/09_reports_and_audit_logs.png) | ![Admin Returns Approval](screenshots/10_returns_management_admin.png) |
+
+| User & Role Management (RBAC) |
+| :---: |
+| ![User & Role Access Control](screenshots/11_user_roles_management.png) |
 
 ---
 

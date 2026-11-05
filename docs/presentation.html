@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InventoryPro — Final University Review Presentation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans select-none overflow-x-hidden">
+
+    <!-- Top Status Bar -->
+    <header class="bg-slate-900 border-b border-slate-800 px-6 py-3 flex items-center justify-between z-10">
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center font-black text-white text-lg shadow-sm">
+                📦
+            </div>
+            <div>
+                <h1 class="text-sm font-bold text-white tracking-wide">InventoryPro — Final Academic Review</h1>
+                <p class="text-[11px] text-slate-400">MERN Stack Enterprise Inventory & WMS with Live Razorpay Integration</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-semibold">
+            <span class="px-2.5 py-1 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Razorpay Live Mode (Real Money)
+            </span>
+            <span class="text-slate-400">Slide <span id="currentSlideNum" class="text-white font-bold">1</span> / <span id="totalSlidesNum">15</span></span>
+        </div>
+    </header>
+
+    <!-- Main Slide Stage -->
+    <main class="flex-1 flex items-center justify-center p-6 md:p-12 relative max-w-6xl mx-auto w-full">
+
+        <!-- Slide 1: Title Slide -->
+        <div class="slide active flex-col justify-center items-center text-center max-w-4xl w-full" data-slide="1">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-900/60 text-indigo-300 border border-indigo-700/80 text-xs font-bold uppercase tracking-wider mb-6">
+                🎓 University Final Review • November 2026
+            </div>
+            <h2 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-4">
+                InventoryPro
+            </h2>
+            <p class="text-lg md:text-xl text-slate-300 font-medium mb-8 max-w-2xl leading-relaxed">
+                Enterprise Multi-Tenant Inventory & Warehouse Management System with Consumer Buyer Storefront & Live Razorpay Payments
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-2xl mb-8 text-left">
+                <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <p class="text-xs text-slate-400 uppercase font-semibold mb-1">Candidate Name</p>
+                    <p class="text-sm font-bold text-white">Ravi Theja Rayapati</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <p class="text-xs text-slate-400 uppercase font-semibold mb-1">Architecture</p>
+                    <p class="text-sm font-bold text-indigo-400">MERN Stack + ESM</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
+                    <p class="text-xs text-slate-400 uppercase font-semibold mb-1">Deployment</p>
+                    <p class="text-sm font-bold text-emerald-400">Vercel + Render + Atlas</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 text-xs text-slate-400">
+                <span>Use <strong>Arrow Keys [← / →]</strong> or navigation buttons to present</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: Problem Statement -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="2">
+            <div class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-2">Industry Gap & Motivation</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">The Real-World Supply Chain Problem</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div class="w-10 h-10 rounded-xl bg-rose-950 text-rose-400 flex items-center justify-center font-bold text-lg mb-2">❌</div>
+                    <h3 class="text-base font-bold text-white">Single-Shop Silos</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Traditional retail IMS treats stock as a single global number without granular warehouse bin coordinates or regional distribution routing.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div class="w-10 h-10 rounded-xl bg-amber-950 text-amber-400 flex items-center justify-center font-bold text-lg mb-2">⚠️</div>
+                    <h3 class="text-base font-bold text-white">Concurrency & Overselling</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Concurrent customer shopping sessions corrupt stock balances without atomic database locking ($gte guards and Mongoose ACID transactions).</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div class="w-10 h-10 rounded-xl bg-orange-950 text-orange-400 flex items-center justify-center font-bold text-lg mb-2">🔄</div>
+                    <h3 class="text-base font-bold text-white">Manual Return & Refund Delays</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Customer return workflows (RMA) lack automated gateway refund disbursement and direct facility restocking into WMS bins.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div class="w-10 h-10 rounded-xl bg-blue-950 text-blue-400 flex items-center justify-center font-bold text-lg mb-2">🚫</div>
+                    <h3 class="text-base font-bold text-white">Cloud SMTP Firewall Blocking</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">Modern cloud hosts (Render, AWS) block outbound SMTP ports (25, 465, 587) to prevent spam, causing order emails to silently drop or hang.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Project Vision & Scope -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="3">
+            <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Solution Architecture</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">InventoryPro: The 3-in-1 Unified Platform</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-slate-900 border border-indigo-900/60 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center font-bold text-xl mb-4">1</div>
+                        <h3 class="text-lg font-bold text-white mb-2">Enterprise IMS</h3>
+                        <ul class="text-xs text-slate-400 space-y-2">
+                            <li>• 8-char strict alphanumeric SKU</li>
+                            <li>• 8-image Cloudinary gallery per item</li>
+                            <li>• Bulk CSV import (500 items/batch)</li>
+                            <li>• Category & measurement unit master</li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-indigo-400 font-semibold">Catalog Master Control</div>
+                </div>
+                <div class="p-6 rounded-2xl bg-slate-900 border border-emerald-900/60 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-emerald-600/20 text-emerald-400 flex items-center justify-center font-bold text-xl mb-4">2</div>
+                        <h3 class="text-lg font-bold text-white mb-2">Multi-Facility WMS</h3>
+                        <ul class="text-xs text-slate-400 space-y-2">
+                            <li>• Rigid state/city/6-digit PIN hierarchy</li>
+                            <li>• Aisle / Rack / Bin locations (A-01-01)</li>
+                            <li>• Inter-warehouse transfer transit states</li>
+                            <li>• Physical cycle count adjustments</li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-emerald-400 font-semibold">Logistics & Warehousing</div>
+                </div>
+                <div class="p-6 rounded-2xl bg-slate-900 border border-amber-900/60 flex flex-col justify-between">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-amber-600/20 text-amber-400 flex items-center justify-center font-bold text-xl mb-4">3</div>
+                        <h3 class="text-lg font-bold text-white mb-2">Buyer Storefront</h3>
+                        <ul class="text-xs text-slate-400 space-y-2">
+                            <li>• Live catalog browsing & price filters</li>
+                            <li>• Server-verified cart total (18% GST)</li>
+                            <li>• Razorpay Live checkout (UPI/Cards)</li>
+                            <li>• Streamed A4 PDF tax invoices</li>
+                        </ul>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-800 text-[11px] text-amber-400 font-semibold">Consumer E-Commerce</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: System Architecture -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="4">
+            <div class="text-xs font-bold text-indigo-400 uppercase tracking-wider mb-2">Engineering Topology</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">Decoupled Architecture Pipeline</h2>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 font-mono text-xs text-slate-300 space-y-4">
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <span class="text-indigo-400 font-bold">Frontend Layer (React 18 + Vite 6 + Tailwind + Ant Design)</span>
+                    <span class="text-slate-500">Vercel Global Edge CDN</span>
+                </div>
+                <div class="text-center text-slate-600 font-bold">▼ Axios Interceptors (JWT Bearer Token / HTTP-only Cookies)</div>
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <span class="text-emerald-400 font-bold">API Gateway & Middlewares (Express 4.x ESM)</span>
+                    <span class="text-slate-500">CORS Origin Check • verifyJWT • requireRole • Multer Upload</span>
+                </div>
+                <div class="text-center text-slate-600 font-bold">▼ Controller - Service - Repository Pattern</div>
+                <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <span class="text-amber-400 font-bold">Persistence Layer (MongoDB Atlas M0 Cluster)</span>
+                    <span class="text-slate-500">17 Collections • Compound Indexes • Multi-Document Transactions</span>
+                </div>
+                <div class="text-center text-slate-600 font-bold">▼ Asynchronous Cloud Integrations</div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-[11px]">
+                    <span class="p-2 bg-slate-800 rounded-lg text-slate-200">Razorpay Live API</span>
+                    <span class="p-2 bg-slate-800 rounded-lg text-slate-200">Brevo HTTPS v3</span>
+                    <span class="p-2 bg-slate-800 rounded-lg text-slate-200">Cloudinary CDN</span>
+                    <span class="p-2 bg-slate-800 rounded-lg text-slate-200">PDFKit Streaming</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: RBAC Matrix -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="5">
+            <div class="text-xs font-bold text-purple-400 uppercase tracking-wider mb-2">Access Control & Security</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">3-Tier Role-Based Access Control (RBAC)</h2>
+            <div class="overflow-hidden border border-slate-800 rounded-2xl bg-slate-900 text-xs">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-950 text-slate-400 border-b border-slate-800 uppercase font-semibold">
+                        <tr>
+                            <th class="p-3.5">Capability / Module</th>
+                            <th class="p-3.5 text-center text-indigo-400">Administrator</th>
+                            <th class="p-3.5 text-center text-emerald-400">Warehouse Manager</th>
+                            <th class="p-3.5 text-center text-amber-400">Customer Buyer</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800 text-slate-300">
+                        <tr>
+                            <td class="p-3.5 font-medium">Executive Analytics & Valuation</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">✅ Full</td>
+                            <td class="p-3.5 text-center text-slate-600">❌</td>
+                            <td class="p-3.5 text-center text-slate-600">❌</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 font-medium">User & Role Management (/admin/users)</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">✅ Full</td>
+                            <td class="p-3.5 text-center text-slate-600">❌</td>
+                            <td class="p-3.5 text-center text-slate-600">❌</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 font-medium">Catalog Master & 8-Image Upload</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">✅ Full</td>
+                            <td class="p-3.5 text-center text-slate-600">❌</td>
+                            <td class="p-3.5 text-center text-slate-600">❌</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 font-medium">Warehouse Setup & Bin Coordinates</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">✅ Global</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">✅ Assigned Hubs</td>
+                            <td class="p-3.5 text-center text-slate-600">❌</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 font-medium">Inter-Warehouse Transfers & Adjustments</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">✅ Global</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">✅ Assigned Hubs</td>
+                            <td class="p-3.5 text-center text-slate-600">❌</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 font-medium">Storefront Catalog, Cart & Razorpay Checkout</td>
+                            <td class="p-3.5 text-center text-slate-500">Preview</td>
+                            <td class="p-3.5 text-center text-slate-500">Preview</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">✅ Full Access</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3.5 font-medium">Customer Returns (RMA) & Razorpay Refund</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">Authorize & Refund</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">Restock to Bin</td>
+                            <td class="p-3.5 text-center text-emerald-400 font-bold">Submit (7 Days)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Slide 6: Buyer Storefront & Cart -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="6">
+            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">Commerce Experience</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">Customer Buyer Storefront & Anti-Tamper Cart</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span class="text-amber-400">🛡️</span> Server-Side Price Authority
+                    </h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Never trust client cart payload. When placing an order, Express retrieves product unit prices directly from MongoDB Atlas to calculate item subtotals, GST (18%), and final payable amounts.
+                    </p>
+                    <div class="p-3 bg-slate-950 rounded-xl font-mono text-[11px] text-slate-300">
+                        subTotal = DB.selling_price * qty;<br>
+                        gst = Math.round(subTotal * 0.18 * 100) / 100;<br>
+                        amountInPaise = Math.round((subTotal + gst) * 100);
+                    </div>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span class="text-indigo-400">🧾</span> Automated GST Tax Invoices
+                    </h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Orders immediately unlock instant vector PDF tax invoices streamed using <code>pdfkit</code>. Invoices feature company details, HSN codes, authorized digital sign-offs, and payment timestamps.
+                    </p>
+                    <div class="p-3 bg-slate-950 rounded-xl font-mono text-[11px] text-slate-300">
+                        GET /api/v1/orders/:id/invoice<br>
+                        Content-Type: application/pdf<br>
+                        Header: inline; filename="Invoice-INV-XXXXXX.pdf"
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Razorpay Live Integration -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="7">
+            <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Fintech Integration</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">Live Razorpay Gateway Integration</h2>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                    <div>
+                        <p class="text-xs text-slate-400">Active Live Key ID</p>
+                        <p class="text-sm font-mono font-bold text-emerald-400">rzp_live_TwYmHsX3omQmQE</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full bg-emerald-950 border border-emerald-700 text-emerald-300 text-xs font-bold">
+                        Production Live Mode
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                        <p class="font-bold text-white mb-1">Cryptographic HMAC</p>
+                        <p class="text-slate-400">Validates SHA256 hex digest using live secret key before accepting transactions.</p>
+                    </div>
+                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                        <p class="font-bold text-white mb-1">Idempotency Lock</p>
+                        <p class="text-slate-400">Prevents double-stock deduction if customer refreshes the confirmation page.</p>
+                    </div>
+                    <div class="p-3 bg-slate-950 rounded-xl border border-slate-800">
+                        <p class="font-bold text-white mb-1">Live Verified</p>
+                        <p class="text-slate-400">Verified with real money UPI transaction (Order #INV-718884).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Customer Returns & Refunds -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="8">
+            <div class="text-xs font-bold text-rose-400 uppercase tracking-wider mb-2">Customer Care Automation</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">7-Day RMA & Automated Gateway Refunds</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-950 text-indigo-400 flex items-center justify-center font-bold">1</div>
+                    <h3 class="font-bold text-white text-sm">Customer RMA Request</h3>
+                    <p class="text-slate-400">Available within 7 days of delivery. Categorized reasons: Defective, Damaged, Wrong Item, Size, Other.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-950 text-emerald-400 flex items-center justify-center font-bold">2</div>
+                    <h3 class="font-bold text-white text-sm">Automated Refund Execution</h3>
+                    <p class="text-slate-400">Upon Admin approval, backend invokes Razorpay Refund API directly. Amount credited back to source account.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <div class="w-8 h-8 rounded-lg bg-amber-950 text-amber-400 flex items-center justify-center font-bold">3</div>
+                    <h3 class="font-bold text-white text-sm">Facility Restocking</h3>
+                    <p class="text-slate-400">Manager marks return received, restoring stock to specific bin and recording an adjustment_add ledger event.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Warehouse Management (WMS) -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="9">
+            <div class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Physical Logistics</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">Multi-Facility Warehouse Management (WMS)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <h3 class="font-bold text-white text-sm">Strict Indian Address Hierarchy</h3>
+                    <p class="text-slate-400">Enforces structured data entry eliminating contact noise:</p>
+                    <div class="p-3 bg-slate-950 rounded-xl font-mono text-indigo-300">
+                        Street/Landmark → State → City → 6-Digit PIN ([0-9]{6})
+                    </div>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <h3 class="font-bold text-white text-sm">Bin, Aisle & Rack Locations</h3>
+                    <p class="text-slate-400">Every product in each facility carries dedicated coordinates (e.g. A-01-01), enabling rapid picking, packing, and dispatch.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <h3 class="font-bold text-white text-sm">Inter-Warehouse Transfers</h3>
+                    <p class="text-slate-400">Coordinates inventory balancing across hubs with full transit states: pending → in_transit → completed / cancelled.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <h3 class="font-bold text-white text-sm">Physical Cycle Counts</h3>
+                    <p class="text-slate-400">Audits physical on-hand units against system records, generating adjustment entries to keep books balanced.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: 3-Tier Email Engine -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="10">
+            <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Resilient Notifications</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">3-Tier Port 443 Transactional Email Engine</h2>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4 text-xs">
+                <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-950 border border-emerald-900/60">
+                    <div class="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold">Tier 1</div>
+                    <div>
+                        <h4 class="font-bold text-white">Brevo HTTPS REST API v3 (Port 443)</h4>
+                        <p class="text-slate-400">Bypasses blocked SMTP ports. Delivers to any domain worldwide without requiring custom DNS domain verification. Verified sender: rayapatiravitheja@gmail.com.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-950 border border-indigo-900/60">
+                    <div class="px-2.5 py-1 rounded bg-indigo-600 text-white font-bold">Tier 2</div>
+                    <div>
+                        <h4 class="font-bold text-white">Resend HTTPS REST API + Smart Sandbox Auto-Forwarder</h4>
+                        <p class="text-slate-400">If Brevo fails, falls back to Resend Port 443. Auto-intercepts 403 sandbox restrictions and safely routes copies to store owner.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4 p-4 rounded-xl bg-slate-950 border border-slate-800">
+                    <div class="px-2.5 py-1 rounded bg-slate-700 text-white font-bold">Tier 3</div>
+                    <div>
+                        <h4 class="font-bold text-white">Nodemailer Gmail SMTP Singleton</h4>
+                        <p class="text-slate-400">Configured with strict 4-second timeout to prevent request hanging on cloud hosts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Low-Stock Scheduler -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="11">
+            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-2">Automation & Cron</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">Automated Low-Stock Scheduler & Audit Logs</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+                    <h3 class="font-bold text-white text-sm">Weekly Automated Cron Scan</h3>
+                    <p class="text-slate-400">In-process singleton powered by <code>node-cron</code> executing every Monday at 9:00 AM IST (0 9 * * 1). Automatically compiles deficit inventory across all regional facilities.</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
+                    <h3 class="font-bold text-white text-sm">Interactive Live Test Trigger</h3>
+                    <p class="text-slate-400">Administrators can trigger a live scan on-demand via the Reports page (/reports). Dispatches instant email alerts to both primary admins.</p>
+                </div>
+                <div class="md:col-span-2 p-4 bg-slate-950 rounded-xl border border-slate-800">
+                    <h4 class="font-bold text-indigo-400 mb-1">Persistent AlertLog Collection</h4>
+                    <p class="text-slate-400">Every automated or manual scan writes to MongoDB AlertLog, storing timestamps, trigger methods, recipient email addresses, alerted SKUs, and email message IDs.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Immutable Stock Ledger -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="12">
+            <div class="text-xs font-bold text-blue-400 uppercase tracking-wider mb-2">Accounting Integrity</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">Double-Entry Immutable Stock Ledger</h2>
+            <p class="text-xs text-slate-300 mb-4">Every inventory mutation is permanently recorded with complete mathematical audit trails:</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-xs">
+                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
+                    <p class="font-bold text-emerald-400 mb-1">purchase_receipt</p>
+                    <p class="text-[11px] text-slate-400">Inbound supplier GRN</p>
+                </div>
+                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
+                    <p class="font-bold text-rose-400 mb-1">order_dispatch</p>
+                    <p class="text-[11px] text-slate-400">Outward customer sales</p>
+                </div>
+                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
+                    <p class="font-bold text-indigo-400 mb-1">transfer_in/out</p>
+                    <p class="text-[11px] text-slate-400">Inter-facility transit</p>
+                </div>
+                <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl">
+                    <p class="font-bold text-amber-400 mb-1">adjustment_add/deduct</p>
+                    <p class="text-[11px] text-slate-400">Cycle count & returns</p>
+                </div>
+            </div>
+            <div class="mt-4 p-4 bg-slate-950 rounded-xl border border-slate-800 font-mono text-[11px] text-slate-400">
+                Audit Trail Fields: quantity_before • quantity_change • quantity_after • reference_no • created_by
+            </div>
+        </div>
+
+        <!-- Slide 13: Database Models -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="13">
+            <div class="text-xs font-bold text-purple-400 uppercase tracking-wider mb-2">Data Layer</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">MongoDB Atlas: 17 Data Models</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">1. User</span> <span class="text-slate-500">• RBAC & Auth</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">2. Product</span> <span class="text-slate-500">• 8-Image Catalog</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">3. Warehouse</span> <span class="text-slate-500">• WMS Facilities</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">4. WarehouseStock</span> <span class="text-slate-500">• Bins</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">5. Order</span> <span class="text-slate-500">• Sales Orders</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">6. OrderDetail</span> <span class="text-slate-500">• Line Items</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">7. ReturnRequest</span> <span class="text-slate-500">• RMA</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">8. StockLedger</span> <span class="text-slate-500">• Double-Entry</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">9. StockTransfer</span> <span class="text-slate-500">• Transfers</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">10. StockAdjustment</span> <span class="text-slate-500">• Counts</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">11. Purchase</span> <span class="text-slate-500">• Inbound POs</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">12. PurchaseDetail</span> <span class="text-slate-500">• PO Items</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">13. Category</span> <span class="text-slate-500">• Grouping</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">14. Unit</span> <span class="text-slate-500">• Measures</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">15. Supplier</span> <span class="text-slate-500">• Vendors</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">16. Customer</span> <span class="text-slate-500">• Profiles</span></div>
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800"><span class="font-bold text-white">17. AlertLog</span> <span class="text-slate-500">• Audit History</span></div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Deployment & Compliance -->
+        <div class="slide flex-col justify-center max-w-4xl w-full text-left" data-slide="14">
+            <div class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2">Live Production</div>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">Deployment & RBI Compliance</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <h3 class="font-bold text-white text-sm">Live Deployments</h3>
+                    <p class="text-slate-400">• Frontend (Vercel): <a href="https://inventory-pro-azure-two.vercel.app/" class="text-indigo-400 underline" target="_blank">inventory-pro-azure-two.vercel.app</a></p>
+                    <p class="text-slate-400">• Backend API (Render): <a href="https://inventorypro-api-l20i.onrender.com" class="text-indigo-400 underline" target="_blank">inventorypro-api-l20i.onrender.com</a></p>
+                    <p class="text-slate-400">• MongoDB Atlas: Global replica cluster with automated backups</p>
+                </div>
+                <div class="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                    <h3 class="font-bold text-white text-sm">Regulatory & Razorpay Compliance</h3>
+                    <p class="text-slate-400">• Terms & Conditions (/terms)</p>
+                    <p class="text-slate-400">• Privacy Policy (/privacy)</p>
+                    <p class="text-slate-400">• Shipping & Delivery Policy (/shipping-policy)</p>
+                    <p class="text-slate-400">• Cancellation & 7-Day Refund Policy (/cancellation-refund)</p>
+                    <p class="text-slate-400">• Contact Us with Grievance Officer details (/contact)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Conclusion & Q&A -->
+        <div class="slide flex-col justify-center items-center text-center max-w-4xl w-full" data-slide="15">
+            <div class="w-16 h-16 rounded-2xl bg-emerald-950 border border-emerald-700 text-emerald-400 flex items-center justify-center font-bold text-3xl mb-6">
+                ✅
+            </div>
+            <h2 class="text-4xl md:text-5xl font-black text-white mb-4">Conclusion & Live Demo</h2>
+            <p class="text-base text-slate-300 max-w-xl mb-8">
+                InventoryPro delivers an enterprise-grade full-stack solution bridging industrial multi-facility warehousing with modern digital consumer commerce.
+            </p>
+            <div class="flex flex-wrap items-center justify-center gap-4">
+                <a href="https://inventory-pro-azure-two.vercel.app/" target="_blank" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-bold text-white text-sm transition-colors">
+                    Launch Live Web App 🚀
+                </a>
+                <a href="https://github.com/rayapatiravitheja/Inventory-pro" target="_blank" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 font-bold text-white text-sm transition-colors">
+                    View GitHub Repository 📂
+                </a>
+            </div>
+            <p class="text-xs text-slate-500 mt-10">Candidate: Ravi Theja Rayapati • Open for Examiner Review & Questions</p>
+        </div>
+
+    </main>
+
+    <!-- Bottom Controls & Slide Thumbnails -->
+    <footer class="bg-slate-900 border-t border-slate-800 px-6 py-3 flex items-center justify-between z-10">
+        <button id="prevBtn" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-colors flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i> Previous
+        </button>
+
+        <div class="flex items-center gap-1.5 overflow-x-auto px-4 max-w-xl">
+            <!-- 15 dots -->
+            <template id="dotTemplate">
+                <button class="w-2.5 h-2.5 rounded-full bg-slate-700 transition-all dot-btn"></button>
+            </template>
+            <div id="dotsContainer" class="flex items-center gap-1.5"></div>
+        </div>
+
+        <button id="nextBtn" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs transition-colors flex items-center gap-2">
+            Next <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </footer>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 15;
+        const slides = document.querySelectorAll('.slide');
+        const dotsContainer = document.getElementById('dotsContainer');
+        const currentSlideNum = document.getElementById('currentSlideNum');
+        const totalSlidesNum = document.getElementById('totalSlidesNum');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        totalSlidesNum.textContent = totalSlides;
+
+        // Build dots
+        for (let i = 1; i <= totalSlides; i++) {
+            const dot = document.createElement('button');
+            dot.className = `w-2 h-2 rounded-full transition-all ${i === 1 ? 'bg-indigo-400 w-5' : 'bg-slate-700'}`;
+            dot.addEventListener('click', () => showSlide(i));
+            dotsContainer.appendChild(dot);
+        }
+
+        const dots = dotsContainer.querySelectorAll('button');
+
+        function showSlide(n) {
+            if (n < 1) n = 1;
+            if (n > totalSlides) n = totalSlides;
+            currentSlide = n;
+
+            slides.forEach((s, idx) => {
+                s.classList.toggle('active', idx + 1 === currentSlide);
+            });
+
+            dots.forEach((d, idx) => {
+                if (idx + 1 === currentSlide) {
+                    d.className = 'w-5 h-2 rounded-full bg-indigo-400 transition-all';
+                } else {
+                    d.className = 'w-2 h-2 rounded-full bg-slate-700 transition-all';
+                }
+            });
+
+            currentSlideNum.textContent = currentSlide;
+            prevBtn.disabled = currentSlide === 1;
+            nextBtn.disabled = currentSlide === totalSlides;
+            prevBtn.style.opacity = currentSlide === 1 ? '0.5' : '1';
+            nextBtn.style.opacity = currentSlide === totalSlides ? '0.5' : '1';
+        }
+
+        prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+                showSlide(currentSlide + 1);
+            } else if (e.key === 'ArrowLeft') {
+                showSlide(currentSlide - 1);
+            }
+        });
+
+        showSlide(1);
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InventoryPro — Formal Project Documentation Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            .page-break { page-break-after: always; }
+            body { font-size: 11pt; color: #000; background: #fff; }
+            .no-print { display: none !important; }
+            a { text-decoration: none; color: #000; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed">
+
+    <!-- Top Action Banner (Hidden on Print) -->
+    <div class="no-print bg-slate-900 text-slate-200 px-6 py-3 border-b border-slate-800 flex items-center justify-between sticky top-0 z-50 shadow-md">
+        <div class="flex items-center gap-3">
+            <span class="text-xl">📘</span>
+            <div>
+                <span class="font-bold text-white text-sm">InventoryPro Formal Project Report</span>
+                <span class="text-xs text-slate-400 ml-2 hidden sm:inline">MERN Stack Final Review • Ready for PDF Export</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="window.print()" class="px-4 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs shadow-sm flex items-center gap-1.5 transition-colors">
+                <span>🖨️ Print / Save as PDF</span>
+            </button>
+            <a href="presentation.html" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs transition-colors">
+                Open PPT Deck
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Report Body -->
+    <div class="max-w-4xl mx-auto my-8 bg-white p-8 md:p-16 rounded-3xl shadow-sm border border-slate-200 print:border-none print:shadow-none print:p-0">
+
+        <!-- Cover / Title Page -->
+        <div class="text-center py-12 border-b border-slate-200 mb-12 page-break">
+            <div class="inline-block p-4 rounded-2xl bg-indigo-50 border border-indigo-100 text-indigo-600 text-4xl mb-6">
+                📦
+            </div>
+            <p class="text-xs uppercase font-extrabold tracking-widest text-indigo-600 mb-3">
+                Full-Stack MERN Technical Final Review Report
+            </p>
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight mb-6">
+                InventoryPro
+            </h1>
+            <p class="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed mb-10">
+                Enterprise Multi-Tenant Inventory & Warehouse Management System with Consumer Buyer Storefront, Live Razorpay Fintech Integration & Immutable Double-Entry Ledger
+            </p>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 max-w-xl mx-auto text-left text-sm space-y-2 mb-10">
+                <div class="flex justify-between py-1 border-b border-slate-200">
+                    <span class="text-slate-500 font-medium">Candidate Name:</span>
+                    <span class="text-slate-900 font-bold">Ravi Theja Rayapati</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-200">
+                    <span class="text-slate-500 font-medium">Course / Domain:</span>
+                    <span class="text-slate-900 font-semibold">Full-Stack MERN Web Development</span>
+                </div>
+                <div class="flex justify-between py-1 border-b border-slate-200">
+                    <span class="text-slate-500 font-medium">Review Dates:</span>
+                    <span class="text-slate-900 font-semibold">November 6th, 10th & 11th, 2026</span>
+                </div>
+                <div class="flex justify-between py-1">
+                    <span class="text-slate-500 font-medium">Live Deployment:</span>
+                    <a href="https://inventory-pro-azure-two.vercel.app/" class="text-indigo-600 font-semibold underline" target="_blank">
+                        inventory-pro-azure-two.vercel.app
+                    </a>
+                </div>
+            </div>
+
+            <div class="text-xs text-slate-400">
+                Official Submission for Academic Evaluation • Academic Year 2026
+            </div>
+        </div>
+
+        <!-- Section 1: Executive Summary -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+                <span>1.</span> Executive Summary & Abstract
+            </h2>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                <strong>InventoryPro</strong> is an enterprise-grade full-stack MERN application that merges industrial multi-facility warehouse operations with consumer digital commerce. Designed to eliminate the vulnerabilities of single-location tracking and concurrent overselling, the platform incorporates strict atomic database updates ($gte guards), Mongoose multi-document ACID transactions, production Razorpay live payment capture (UPI, Cards, NetBanking), 7-day customer return workflows (RMA) with automated gateway refunds, a 3-tier Port 443 HTTPS email failover pipeline (Brevo v3 and Resend), and immutable double-entry ledger bookkeeping.
+            </p>
+        </section>
+
+        <!-- Section 2: Architecture & Topology -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+                <span>2.</span> System Architecture & RBAC
+            </h2>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                The application follows the modular <strong>Controller-Service-Repository</strong> design pattern. The React 18 frontend communicates through Axios interceptors passing signed JWT tokens via HTTP-only cookies and Authorization headers to an Express 4.x ESM backend on Render.
+            </p>
+            <div class="bg-slate-900 text-slate-200 rounded-2xl p-6 font-mono text-xs space-y-3 mb-6">
+                <div class="p-2.5 bg-slate-950 rounded-lg text-indigo-400 font-bold">1. Frontend Layer: React 18, Vite 6, Tailwind CSS, Ant Design 5 (Vercel)</div>
+                <div class="p-2.5 bg-slate-950 rounded-lg text-emerald-400 font-bold">2. API Layer: Express 4.x ESM, verifyJWT, requireRole, Multer, PDFKit (Render)</div>
+                <div class="p-2.5 bg-slate-950 rounded-lg text-amber-400 font-bold">3. Database Layer: MongoDB Atlas M0 Cluster (17 Schemas, Compound Indexes, ACID)</div>
+                <div class="p-2.5 bg-slate-950 rounded-lg text-blue-400 font-bold">4. Cloud Services: Razorpay Live, Brevo HTTPS API, Cloudinary CDN</div>
+            </div>
+
+            <h3 class="text-lg font-bold text-slate-800 mb-3">Role-Based Access Control (RBAC) Matrix</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border border-slate-200 rounded-xl overflow-hidden mb-6">
+                    <thead class="bg-slate-100 text-slate-700 font-bold">
+                        <tr>
+                            <th class="p-3">Feature / Capability</th>
+                            <th class="p-3 text-center">Administrator</th>
+                            <th class="p-3 text-center">Warehouse Manager</th>
+                            <th class="p-3 text-center">Customer Buyer</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-600">
+                        <tr>
+                            <td class="p-3 font-medium">Executive Analytics & Valuation</td>
+                            <td class="p-3 text-center text-emerald-600 font-bold">✅ Global</td>
+                            <td class="p-3 text-center text-slate-400">❌</td>
+                            <td class="p-3 text-center text-slate-400">❌</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-medium">Product Catalog & 8-Image Upload</td>
+                            <td class="p-3 text-center text-emerald-600 font-bold">✅ Full</td>
+                            <td class="p-3 text-center text-slate-400">❌</td>
+                            <td class="p-3 text-center text-slate-400">❌</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-medium">Warehouse Master & Bin Mapping</td>
+                            <td class="p-3 text-center text-emerald-600 font-bold">✅ Global</td>
+                            <td class="p-3 text-center text-emerald-600 font-bold">✅ Assigned Hubs</td>
+                            <td class="p-3 text-center text-slate-400">❌</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-medium">Storefront Browsing & Cart Checkout</td>
+                            <td class="p-3 text-center text-slate-400">Preview</td>
+                            <td class="p-3 text-center text-slate-400">Preview</td>
+                            <td class="p-3 text-center text-emerald-600 font-bold">✅ Full Access</td>
+                        </tr>
+                        <tr>
+                            <td class="p-3 font-medium">RMA Returns & Razorpay Automated Refund</td>
+                            <td class="p-3 text-center text-emerald-600 font-bold">Authorize & Refund</td>
+                            <td class="p-3 text-center text-emerald-600 font-bold">Restock to Bin</td>
+                            <td class="p-3 text-center text-emerald-600 font-bold">Submit Request</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 3: Live Verification & Testing -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+                <span>3.</span> Live Production Verification & Proof
+            </h2>
+            <p class="text-sm text-slate-600 leading-relaxed mb-4">
+                The platform is 100% live in production, verified with real money transactions:
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs mb-6">
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                    <p class="font-bold text-slate-800 mb-1">Live Order #INV-718884</p>
+                    <p class="text-slate-600">Customer: tejuu (99230040998@klu.ac.in)</p>
+                    <p class="text-slate-600">Amount Paid: ₹8.26 via Real UPI</p>
+                    <p class="text-slate-600">Payment ID: pay_TwZEHyi7joT7z3</p>
+                    <p class="text-emerald-600 font-bold mt-1">Status: Captured & Settled</p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 border border-slate-200">
+                    <p class="font-bold text-slate-800 mb-1">Live Order #INV-334112</p>
+                    <p class="text-slate-600">Customer: Vijay</p>
+                    <p class="text-slate-600">Amount Paid: ₹8.26 via Razorpay Live</p>
+                    <p class="text-slate-600">Payment ID: pay_TwZ7BWxxyGBEti</p>
+                    <p class="text-emerald-600 font-bold mt-1">Status: Captured & Settled</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Academic Deliverables Checklist -->
+        <section class="mb-12">
+            <h2 class="text-2xl font-bold text-slate-900 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
+                <span>4.</span> Academic Review Deliverables Verification
+            </h2>
+            <ul class="space-y-3 text-xs text-slate-700">
+                <li class="flex items-center gap-2">
+                    <span class="text-emerald-600 font-bold text-sm">✅</span>
+                    <span><strong>1. Complete Source Code:</strong> Clean build, zero warnings, committed to GitHub main.</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="text-emerald-600 font-bold text-sm">✅</span>
+                    <span><strong>2. Project PPT & Documentation:</strong> Standalone presentation deck (<code>docs/presentation.html</code>) and full report (<code>docs/PROJECT_REPORT.md</code>).</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="text-emerald-600 font-bold text-sm">✅</span>
+                    <span><strong>3. Live Deployment Links:</strong> Verified live on Vercel and Render with live MongoDB Atlas database.</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="text-emerald-600 font-bold text-sm">✅</span>
+                    <span><strong>4. README.md:</strong> Detailed architectural breakdown, credentials, and setup instructions.</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="text-emerald-600 font-bold text-sm">✅</span>
+                    <span><strong>5. Database Design & API Docs:</strong> Complete 17-schema reference (<code>docs/DATABASE_DESIGN.md</code>) and 50+ REST endpoints (<code>docs/API_DOCUMENTATION.md</code>).</span>
+                </li>
+                <li class="flex items-center gap-2">
+                    <span class="text-emerald-600 font-bold text-sm">✅</span>
+                    <span><strong>6. Screenshots Gallery:</strong> 11 high-resolution 1080p screenshots captured into <code>screenshots/</code> directory.</span>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Footer Sign-Off -->
+        <div class="pt-8 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <p class="m-0">Candidate: Ravi Theja Rayapati • InventoryPro Enterprise IMS</p>
+            <p class="m-0">Generated for Final Technical Review • November 2026</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
+
