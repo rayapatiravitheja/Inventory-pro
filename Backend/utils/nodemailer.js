@@ -37,15 +37,27 @@ const transporter = {
         }
 
         // 1. If BREVO_API_KEY is configured, send via Brevo HTTPS API (Port 443 - delivers to ANY recipient without domain verification!)
-        const brevoApiKey = (process.env.BREVO_API_KEY || "").trim();
+        const brevoApiKey = (
+            process.env.BREVO_API_KEY ||
+            process.env.brevo_api_key ||
+            process.env.BREVO_KEY ||
+            ""
+        ).trim();
+
         if (brevoApiKey) {
             try {
                 const toAddresses = recipients.map((email) => ({ email }));
+                const brevoSenderEmail = (
+                    process.env.BREVO_SENDER_EMAIL ||
+                    process.env.SENDER_EMAIL ||
+                    process.env.EMAIL_USER ||
+                    "rayapatiravitheja@gmail.com"
+                ).trim().toLowerCase();
 
                 const payload = {
                     sender: {
                         name: "InventoryPro",
-                        email: process.env.SENDER_EMAIL || process.env.EMAIL_USER || "thejaklu@gmail.com",
+                        email: brevoSenderEmail,
                     },
                     to: toAddresses,
                     subject: mailOptions.subject,
