@@ -2,10 +2,6 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 dotenv.config();
 
-import nodemailer from "nodemailer";
-import dotenv from "dotenv";
-dotenv.config();
-
 // Create default SMTP transporter with strict timeouts to prevent cloud hanging
 const smtpTransporter = nodemailer.createTransport({
     service: "Gmail",
