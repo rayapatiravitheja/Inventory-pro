@@ -10,9 +10,16 @@ dotenv.config({ path: "./.env" });
 
 async function seed() {
     try {
-        const mongoUri = process.env.MONGODB_URI?.includes("mongodb")
-            ? (process.env.MONGODB_URI.endsWith("/") ? `${process.env.MONGODB_URI}${DB_NAME}` : `${process.env.MONGODB_URI}/${DB_NAME}`)
-            : "mongodb://127.0.0.1:27017/IMS";
+        let mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
+        if (!mongoUri.includes(DB_NAME)) {
+            if (mongoUri.includes("/?")) {
+                mongoUri = mongoUri.replace("/?", `/${DB_NAME}?`);
+            } else if (mongoUri.includes("?")) {
+                mongoUri = mongoUri.replace("?", `/${DB_NAME}?`);
+            } else {
+                mongoUri = `${mongoUri.replace(/\/$/, "")}/${DB_NAME}`;
+            }
+        }
 
         await mongoose.connect(mongoUri);
         console.log("Connected to MongoDB for seeding RBAC users & catalog...");
@@ -67,7 +74,7 @@ async function seed() {
         const primaryAdmin = await upsertUser({
             email: "rayapatiravitheja@gmail.com",
             username: "thejaklu",
-            password: "Admin@123",
+            password: "Theja@1822",
             role: "admin",
             phone: "9876543210",
         });

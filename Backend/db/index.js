@@ -12,7 +12,9 @@ const connectDB = async () => {
     try {
         let connectionUrl = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
         if (!connectionUrl.includes(DB_NAME)) {
-            if (connectionUrl.includes("?")) {
+            if (connectionUrl.includes("/?")) {
+                connectionUrl = connectionUrl.replace("/?", `/${DB_NAME}?`);
+            } else if (connectionUrl.includes("?")) {
                 connectionUrl = connectionUrl.replace("?", `/${DB_NAME}?`);
             } else {
                 connectionUrl = `${connectionUrl.replace(/\/$/, "")}/${DB_NAME}`;
