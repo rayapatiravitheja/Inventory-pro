@@ -74,23 +74,28 @@ const Footer = () => {
 
                     <Col xs={12} sm={8} md={5}>
                         <h4 className="text-xs font-bold text-white uppercase tracking-wider mb-4">
-                            Platform
+                            Policies & Legal
                         </h4>
                         <ul className="space-y-2.5 text-sm">
                             <li>
-                                <a href="#features" className="text-slate-400 hover:text-white transition-colors">
-                                    Core Features
-                                </a>
+                                <Link to="/terms" className="text-slate-400 hover:text-white transition-colors">
+                                    Terms & Conditions
+                                </Link>
                             </li>
                             <li>
-                                <a href="#ecosystem" className="text-slate-400 hover:text-white transition-colors">
-                                    Dual Architecture
-                                </a>
+                                <Link to="/privacy" className="text-slate-400 hover:text-white transition-colors">
+                                    Privacy Policy
+                                </Link>
                             </li>
                             <li>
-                                <a href="#process" className="text-slate-400 hover:text-white transition-colors">
-                                    Fulfillment Process
-                                </a>
+                                <Link to="/shipping-policy" className="text-slate-400 hover:text-white transition-colors">
+                                    Shipping & Delivery
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to="/cancellation-refund" className="text-slate-400 hover:text-white transition-colors">
+                                    Refund & Returns
+                                </Link>
                             </li>
                         </ul>
                     </Col>
@@ -100,15 +105,18 @@ const Footer = () => {
                             Contact & Support
                         </h4>
                         <div className="space-y-3 text-sm">
-                            <a
-                                href="mailto:rayapatiravitheja@gmail.com"
+                            <Link
+                                to="/contact"
                                 className="text-slate-400 hover:text-white transition-colors flex items-center gap-2"
                             >
                                 <MailOutlined className="text-slate-400" />
                                 Support Desk
-                            </a>
+                            </Link>
                             <div className="text-xs text-slate-500">
-                                Response window: 24/7 Operations
+                                Email: rayapatiravitheja@gmail.com
+                            </div>
+                            <div className="text-xs text-slate-500">
+                                Phone: +91 99230 04099
                             </div>
                         </div>
                     </Col>

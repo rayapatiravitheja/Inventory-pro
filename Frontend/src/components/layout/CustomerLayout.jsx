@@ -421,16 +421,32 @@ const CustomerLayout = () => {
 
                 {/* Customer Storefront Footer */}
                 <footer className="bg-white border-t border-slate-200 mt-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-                        <div className="flex items-center gap-2">
-                            <span className="font-bold text-slate-700">InventoryPro Storefront</span>
+                    <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-1">
+                            <span className="font-bold text-slate-800">InventoryPro Storefront</span>
                             <span>•</span>
-                            <span>Direct Regional Fulfillment</span>
+                            <Link to="/terms" className="text-slate-600 hover:text-indigo-600 font-medium transition-colors">
+                                Terms
+                            </Link>
                             <span>•</span>
-                            <span>Razorpay Secured</span>
+                            <Link to="/privacy" className="text-slate-600 hover:text-indigo-600 font-medium transition-colors">
+                                Privacy Policy
+                            </Link>
+                            <span>•</span>
+                            <Link to="/shipping-policy" className="text-slate-600 hover:text-indigo-600 font-medium transition-colors">
+                                Shipping Policy
+                            </Link>
+                            <span>•</span>
+                            <Link to="/cancellation-refund" className="text-slate-600 hover:text-indigo-600 font-medium transition-colors">
+                                Refund & Returns
+                            </Link>
+                            <span>•</span>
+                            <Link to="/contact" className="text-slate-600 hover:text-indigo-600 font-medium transition-colors">
+                                Contact Us
+                            </Link>
                         </div>
                         <p className="m-0 text-slate-400">
-                            © {new Date().getFullYear()} InventoryPro. All rights reserved.
+                            © {new Date().getFullYear()} InventoryPro • Razorpay & RBI Compliant
                         </p>
                     </div>
                 </footer>

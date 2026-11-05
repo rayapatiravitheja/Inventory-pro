@@ -27,6 +27,7 @@ import CustomerCatalog from "./pages/customer/CustomerCatalog";
 import CustomerOrders from "./pages/customer/CustomerOrders";
 import CustomerReturns from "./pages/customer/CustomerReturns";
 import CustomerProfile from "./pages/customer/CustomerProfile";
+import Policies from "./pages/Policies";
 
 import ErrorBoundary from "./components/common/ErrorBoundary";
 
@@ -47,6 +48,14 @@ function App() {
                             path="/reset-password"
                             element={<ResetPassword />}
                         />
+
+                        {/* Legal & Razorpay Compliance Policies */}
+                        <Route path="/policies" element={<Policies />} />
+                        <Route path="/terms" element={<Policies />} />
+                        <Route path="/privacy" element={<Policies />} />
+                        <Route path="/shipping-policy" element={<Policies />} />
+                        <Route path="/cancellation-refund" element={<Policies />} />
+                        <Route path="/contact" element={<Policies />} />
 
                         {/* Email verification route */}
                         <Route
