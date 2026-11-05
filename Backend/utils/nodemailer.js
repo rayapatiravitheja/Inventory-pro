@@ -22,27 +22,34 @@ const transporter = {
     sendMail: async (mailOptions) => {
         // 1. If RESEND_API_KEY is configured, send via HTTPS (Port 443 - works everywhere)
         if (process.env.RESEND_API_KEY) {
-            try {
-                const response = await fetch("https://api.resend.com/emails", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-                    },
-                    body: JSON.stringify({
-                        from: process.env.RESEND_FROM || "InventoryPro <onboarding@resend.dev>",
-                        to: [mailOptions.to],
-                        subject: mailOptions.subject,
-                        html: mailOptions.html,
-                        text: mailOptions.text,
-                    }),
-                });
-                const data = await response.json();
-                if (!response.ok) throw new Error(data.message || "Resend API error");
-                return { messageId: data.id };
-            } catch (err) {
-                console.warn("⚠️ Resend API failed, falling back to SMTP:", err.message);
+            const toAddresses = Array.isArray(mailOptions.to)
+                ? mailOptions.to
+                : [mailOptions.to];
+
+            const payload = {
+                from: process.env.RESEND_FROM || "onboarding@resend.dev",
+                to: toAddresses,
+                subject: mailOptions.subject,
+                html: mailOptions.html || mailOptions.text,
+                text: mailOptions.text,
+            };
+
+            console.log("📤 Dispatching email via Resend HTTPS API to:", toAddresses);
+            const response = await fetch("https://api.resend.com/emails", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${process.env.RESEND_API_KEY.trim()}`,
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const data = await response.json();
+            console.log("📬 Resend API Response:", response.status, data);
+            if (!response.ok) {
+                throw new Error(data.message || JSON.stringify(data));
             }
+            return { messageId: data.id };
         }
 
         // 2. Fall back to SMTP transporter

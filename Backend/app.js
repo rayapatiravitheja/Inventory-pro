@@ -158,12 +158,32 @@ app.get("/", (req, res) => {
     });
 });
 
+import transporter from "./utils/nodemailer.js";
+
 app.get("/api/v1/test", (req, res) => {
     res.json({
         message: "API routes are working!",
         endpoint: "/api/v1/test",
         timestamp: new Date().toISOString(),
+        hasResendKey: !!process.env.RESEND_API_KEY,
+        resendKeyPrefix: process.env.RESEND_API_KEY ? process.env.RESEND_API_KEY.slice(0, 6) + "..." : "missing",
+        senderEmail: process.env.SENDER_EMAIL || "missing",
     });
+});
+
+app.get("/api/v1/test/email", async (req, res) => {
+    const to = req.query.to || "rayapatiravitheja@gmail.com";
+    try {
+        const info = await transporter.sendMail({
+            to,
+            subject: "InventoryPro Direct Email Delivery Test",
+            html: "<h2>Live Email Working!</h2><p>Your InventoryPro transactional email system is now delivering directly to Gmail.</p>",
+            text: "Live email working!",
+        });
+        res.json({ success: true, to, info });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
 });
 
 // 404 Not Found Handler for undefined routes
